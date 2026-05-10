@@ -1183,7 +1183,8 @@ footer {
     </div>
 
     <div class="contact-grid">
-      <form class="form-card reveal" id="contact-form" novalidate>
+      <form class="form-card reveal" id="contact-form" name="contact" netlify data-netlify="true" novalidate>
+        <input type="hidden" name="form-name" value="contact" />
         <div class="field-row">
           <div class="field">
             <label for="firstname">Prénom</label>
@@ -1461,37 +1462,56 @@ footer {
 })();
 
 /* ============================================================
-   5. Contact form (client-side only)
+   5. Contact form — submits to Netlify Forms
    ============================================================ */
 (function initForm() {
   const form = document.getElementById('contact-form');
   const success = document.getElementById('form-success');
+  const submitBtn = form && form.querySelector('button[type=submit]');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  const SUBMIT_LABEL = 'Envoyer ma demande d\'audit <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // simple required-field check
     const required = form.querySelectorAll('[required]');
     let ok = true;
     required.forEach(input => {
-      if (!input.value.trim()) {
-        input.style.borderColor = '#ff5d6c';
-        ok = false;
-      } else {
-        input.style.borderColor = '';
-      }
+      if (!input.value.trim()) { input.style.borderColor = '#ff5d6c'; ok = false; }
+      else input.style.borderColor = '';
     });
     if (!ok) return;
 
-    // pretend submit
-    success.classList.add('show');
-    form.querySelector('button[type=submit]').textContent = 'Envoyé ✓';
-    setTimeout(() => {
-      form.reset();
-      success.classList.remove('show');
-      form.querySelector('button[type=submit]').innerHTML = 'Envoyer ma demande d\'audit <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    }, 4500);
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours…';
+
+    try {
+      const data = new FormData(form);
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data).toString(),
+      });
+
+      if (res.ok) {
+        success.classList.add('show');
+        submitBtn.textContent = 'Envoyé ✓';
+        setTimeout(() => {
+          form.reset();
+          success.classList.remove('show');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = SUBMIT_LABEL;
+        }, 4500);
+      } else {
+        throw new Error('HTTP ' + res.status);
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = SUBMIT_LABEL;
+      alert('Une erreur est survenue. Veuillez réessayer ou nous contacter par email.');
+      console.error('[Neovio] Form error:', err);
+    }
   });
 })();
 </script>
