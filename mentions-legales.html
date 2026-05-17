@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="fr" data-mood="electric">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mentions légales · Neovio</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg:        #050A14;
+  --bg-2:      #0A1124;
+  --surface:   rgba(255,255,255,0.03);
+  --surface-2: rgba(255,255,255,0.05);
+  --border:    rgba(255,255,255,0.08);
+  --border-2:  rgba(255,255,255,0.14);
+  --text:      #E8ECF4;
+  --text-dim:  #98A2B8;
+  --text-mute: #6B7693;
+  --blue:      #4F8EF7;
+  --purple:    #7B4FED;
+  --cyan:      #00D4FF;
+  --green:     #00E5A0;
+  --grad:      linear-gradient(135deg, #4F8EF7 0%, #7B4FED 100%);
+  --grad-soft: linear-gradient(135deg, rgba(79,142,247,0.18) 0%, rgba(123,79,237,0.18) 100%);
+  --glow:      0 8px 30px rgba(79,142,247,0.35), 0 4px 14px rgba(123,79,237,0.30);
+  --glow-soft: 0 4px 18px rgba(79,142,247,0.18);
+  --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-pill: 999px;
+  --container: 1200px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0;
+}
+p { margin: 0; text-wrap: pretty; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 14px 0;
+  background: rgba(5,10,20,0.82);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand-logo { display: inline-flex; align-items: center; }
+.brand-logo img { display: block; height: 34px; width: auto; filter: drop-shadow(0 4px 14px rgba(43,180,230,0.20)); }
+.nav-links { display: flex; align-items: center; gap: 8px; }
+.nav-links a {
+  padding: 8px 14px; border-radius: var(--r-pill);
+  color: var(--text-dim); font-size: 14px; font-weight: 500;
+  transition: color .2s, background .2s; text-decoration: none;
+}
+.nav-links a:hover { color: #fff; background: var(--surface); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px; border-radius: var(--r-pill);
+  font-size: 14px; font-weight: 600; font-family: inherit;
+  transition: transform .15s ease, box-shadow .25s ease;
+  white-space: nowrap; cursor: pointer; text-decoration: none;
+}
+.btn-primary { color: #fff; background: var(--grad); box-shadow: var(--glow); }
+.btn-primary:hover { transform: translateY(-1px); text-decoration: none; }
+
+/* CONTENT */
+.legal-page {
+  max-width: 760px;
+  margin: 72px auto;
+  padding: 0 24px 80px;
+}
+.legal-page .eyebrow {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 14px;
+}
+.legal-page h1 { font-size: 38px; margin-bottom: 8px; }
+.legal-page .updated {
+  font-size: 13px; color: var(--text-mute); margin-bottom: 48px;
+}
+.legal-section { margin-bottom: 40px; }
+.legal-section h2 {
+  font-size: 20px; font-weight: 600; color: #fff;
+  margin-bottom: 12px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.legal-section p, .legal-section li {
+  color: var(--text-dim); font-size: 15px; line-height: 1.7;
+}
+.legal-section p + p { margin-top: 10px; }
+.legal-section ul { margin: 10px 0 0 0; padding-left: 20px; }
+.legal-section li { margin-bottom: 6px; }
+.legal-section a { color: var(--blue); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0 28px;
+  position: relative; z-index: 2;
+}
+.footer-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 40px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.footer-brand p { margin-top: 10px; color: var(--text-dim); font-size: 14px; max-width: 300px; }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a { color: var(--text-dim); font-size: 14px; transition: color .2s; text-decoration: none; }
+.footer-links a:hover { color: #fff; }
+.footer-bottom {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding-top: 20px; border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--text-mute); flex-wrap: wrap; align-items: center;
+}
+.footer-bottom a { color: var(--text-mute); text-decoration: none; }
+.footer-bottom a:hover { color: #fff; }
+.footer-legal { display: flex; gap: 16px; flex-wrap: wrap; }
+.footer-brand .brand-logo img { height: 40px; }
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .btn-primary { display: none; }
+  .footer-top { flex-direction: column; gap: 20px; }
+  .footer-bottom { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand-logo" aria-label="Neovio - Accueil">
+      <img src="assets/neovio-logo-white.png?v=8" alt="Neovio" />
+    </a>
+    <div class="nav-links">
+      <a href="index.html#services">Nos services</a>
+      <a href="index.html#processus">Notre processus</a>
+      <a href="index.html#resultats">Résultats</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html#contact" class="btn btn-primary">
+      Obtenir mon audit gratuit
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</nav>
+
+<main>
+  <div class="legal-page">
+    <span class="eyebrow">Informations légales</span>
+    <h1>Mentions légales</h1>
+    <p class="updated">Dernière mise à jour : 17 mai 2026</p>
+
+    <div class="legal-section">
+      <h2>Éditeur du site</h2>
+      <p>Le présent site internet <strong>neovio.be</strong> est édité par :</p>
+      <ul>
+        <li><strong>Nom :</strong> Robin Pinchard</li>
+        <li><strong>Enseigne commerciale :</strong> Neovio</li>
+        <li><strong>Statut :</strong> Indépendant à titre principal</li>
+        <li><strong>Numéro BCE :</strong> BE 1.038.008.183</li>
+        <li><strong>Adresse :</strong> Boulevard de la Sauvenière 134/61, 4000 Liège, Belgique</li>
+        <li><strong>Email :</strong> <a href="mailto:contact@neovio.be">contact@neovio.be</a></li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>Activité</h2>
+      <p>
+        Neovio propose des services d'automatisation et d'intégration d'intelligence artificielle
+        destinés aux indépendants et petites entreprises. Cela inclut notamment la conception de
+        workflows automatisés, l'intégration d'outils métier et le conseil en transformation numérique.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>Hébergeur</h2>
+      <p>Ce site est hébergé par :</p>
+      <ul>
+        <li><strong>Netlify, Inc.</strong></li>
+        <li>512 Second Street, Suite 200, San Francisco, CA 94107, USA</li>
+        <li><a href="https://www.netlify.com" target="_blank" rel="noopener">www.netlify.com</a></li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des contenus présents sur ce site (textes, visuels, logo, structure) est la
+        propriété exclusive de Robin Pinchard / Neovio, sauf mention contraire. Toute reproduction,
+        représentation ou diffusion, totale ou partielle, sans autorisation écrite préalable est
+        strictement interdite.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>Responsabilité</h2>
+      <p>
+        Neovio s'efforce de maintenir les informations publiées sur ce site aussi précises et
+        à jour que possible. Cependant, nous ne garantissons pas l'exactitude, la complétude
+        ou l'actualité des informations diffusées. Neovio décline toute responsabilité pour
+        tout dommage résultant de l'utilisation du site ou de l'impossibilité d'y accéder.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>Droit applicable</h2>
+      <p>
+        Le présent site et ses conditions d'utilisation sont soumis au droit belge. En cas de
+        litige, les tribunaux de l'arrondissement de Liège seront seuls compétents.
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/neovio-logo-white.png?v=8" alt="Neovio" />
+        </a>
+        <p>Automatisation IA · Liège, Belgique. Nous aidons les indépendants et PME à libérer leur temps grâce à l'IA.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html#services">Nos services</a>
+        <a href="index.html#processus">Notre processus</a>
+        <a href="index.html#resultats">Résultats</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Neovio · Tous droits réservés</span>
+      <div class="footer-legal">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="politique-confidentialite.html">Confidentialité</a>
+        <a href="politique-cookies.html">Cookies</a>
+      </div>
+      <a href="mailto:contact@neovio.be">contact@neovio.be</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
