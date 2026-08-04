@@ -910,32 +910,8 @@ section { position: relative; z-index: 1; }
 }
 
 .booking-panel h3 { font-size: 22px; color: #fff; margin-bottom: 12px; }
-.booking-intro p { color: var(--text-dim); font-size: 15px; margin: 0 0 22px; }
-
-/* The booking page is loaded in its dark theme, so the bed matches the card
-   instead of punching a white hole through it. */
-.booking-frame {
-  position: relative;
-  height: 660px;
-  border-radius: var(--r-md);
-  background: var(--bg-2);
-  border: 1px solid var(--border-2);
-  overflow: hidden;
-  color-scheme: dark;
-}
-.booking-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
-.booking-loading {
-  position: absolute; inset: 0;
-  display: grid; place-items: center;
-  background: var(--bg-2);
-  color: var(--text-mute);
-  font-size: 14px;
-}
-.booking-frame.is-ready .booking-loading { display: none; }
-
-.booking-fallback { margin: 14px 0 0; font-size: 12.5px; color: var(--text-mute); }
-.booking-fallback a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
-.booking-fallback a:hover { color: var(--cyan); }
+.booking-panel p { color: var(--text-dim); font-size: 15px; margin: 0 0 22px; }
+.booking-panel .btn-submit:hover { text-decoration: none; }
 
 /* =========================================================
    FOOTER
@@ -1010,7 +986,6 @@ footer {
   .hero { padding: 120px 0 80px; }
   .field-row { grid-template-columns: 1fr; }
   .form-card { padding: 24px; }
-  .booking-frame { height: 780px; }
   .contact-switch button { font-size: 13.5px; padding: 10px 8px; }
   .footer-top { flex-direction: column; gap: 24px; }
   .footer-bottom { flex-direction: column; gap: 8px; }
@@ -1250,36 +1225,23 @@ footer {
       <div class="contact-panels reveal" id="contact-panels">
 
         <!-- Segmented switch. `hidden` in the markup, un-hidden by JS block 6:
-             without JS the visitor sees exactly the previous page — form only.
-             #booking-link is the single source of truth for the booking URL:
-             block 6 derives the iframe src from its href. -->
+             without JS the visitor sees exactly the previous page — form only. -->
         <div class="contact-switch" id="contact-switch" role="tablist" aria-label="Comment nous joindre" hidden>
           <button type="button" role="tab" id="tab-booking" aria-controls="panel-booking" aria-selected="true" data-panel="booking">Réserver 15 min</button>
           <button type="button" role="tab" id="tab-form" aria-controls="contact-form" aria-selected="false" data-panel="form">Écrire un message</button>
         </div>
 
         <div class="form-card booking-panel" id="panel-booking" role="tabpanel" aria-labelledby="tab-booking" hidden>
-          <div class="booking-intro" id="booking-intro">
-            <h3>Un appel de 15 minutes</h3>
-            <p>En visio ou par téléphone. On cadre votre besoin en 15 minutes, et on fixe ensemble la date de votre audit gratuit sur place (1 h).</p>
-            <button type="button" class="btn btn-primary btn-submit" id="booking-open">
-              Ouvrir le calendrier
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="privacy-note">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1l5 2v4c0 3-2 5.5-5 6.5C4 12.5 2 10 2 7V3l5-2z"/></svg>
-              Le calendrier ne se charge qu'après ce clic. Rien n'est envoyé avant.
-            </div>
+          <h3>Un appel de 15 minutes</h3>
+          <p>En visio ou par téléphone. On cadre votre besoin en 15 minutes, et on fixe ensemble la date de votre audit gratuit sur place (1 h).</p>
+          <a class="btn btn-primary btn-submit" id="booking-open" href="https://cal.com/neovio-be/premier-echange" target="_blank" rel="noopener">
+            Voir les créneaux disponibles
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <div class="privacy-note">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1l5 2v4c0 3-2 5.5-5 6.5C4 12.5 2 10 2 7V3l5-2z"/></svg>
+            Le calendrier s'ouvre dans un nouvel onglet. Rien n'est transmis depuis cette page.
           </div>
-
-          <div class="booking-frame" id="booking-frame" hidden>
-            <div class="booking-loading">Chargement du calendrier…</div>
-          </div>
-
-          <p class="booking-fallback">
-            Le calendrier ne s'affiche pas ?
-            <a id="booking-link" href="https://cal.com/neovio-be/premier-echange" target="_blank" rel="noopener">Ouvrir la page de réservation ↗</a>
-          </p>
         </div>
 
       <form class="form-card" id="contact-form" name="contact" netlify data-netlify="true" novalidate role="tabpanel" aria-labelledby="tab-form">
@@ -1626,26 +1588,18 @@ footer {
 })();
 
 /* ============================================================
-   6. Booking panel — Cal.com scheduler, click-to-load
-      The iframe is NEVER injected on page load: it is created only after an
-      explicit click, so the site keeps its "no third-party request without
-      your action" promise (cf. politique-cookies.html).
+   6. Contact panels — switch between booking and the message form
+      The scheduler is a plain link to Cal.com rather than an embed: its month
+      view needs more width than this column offers and its height changes at
+      every booking step, so a fixed-height iframe always clipped something.
+      A new tab also means no third-party request ever fires from this page.
    ============================================================ */
 (function initBooking() {
   const sw        = document.getElementById('contact-switch');
   const panelBk   = document.getElementById('panel-booking');
   const panelForm = document.getElementById('contact-form');
-  const intro     = document.getElementById('booking-intro');
-  const openBtn   = document.getElementById('booking-open');
-  const frame     = document.getElementById('booking-frame');
-  const link      = document.getElementById('booking-link');
-  if (!sw || !panelBk || !panelForm || !intro || !openBtn || !frame || !link) return;
+  if (!sw || !panelBk || !panelForm) return;
 
-  // Flip to false if the scheduler ever refuses to be framed (X-Frame-Options):
-  // the button then simply opens the booking page in a new tab.
-  const EMBED = true;
-
-  /* 6a. Segmented switch — booking is the default panel once JS is running */
   sw.hidden = false;
   function show(which) {
     const booking = which === 'booking';
@@ -1660,47 +1614,6 @@ footer {
     if (btn) show(btn.dataset.panel);
   });
   show('booking');
-
-  /* 6b. Inject the scheduler iframe once, on click */
-  let state = 'idle'; // idle -> loading -> ready | failed
-
-  openBtn.addEventListener('click', () => {
-    if (!EMBED || state === 'failed') {
-      window.open(link.href, '_blank', 'noopener');
-      return;
-    }
-    if (state !== 'idle') return;
-    state = 'loading';
-
-    // `embed` drops the host's site chrome, `theme` keeps it dark like the page.
-    // Unknown params are ignored, so a wrong guess degrades rather than breaks.
-    const base = link.getAttribute('href');
-    const iframe = document.createElement('iframe');
-    iframe.src = base + (base.indexOf('?') === -1 ? '?' : '&') + 'embed=true&theme=dark';
-    iframe.title = 'Réserver un appel de 15 minutes avec Neovio';
-
-    // A frame blocked by X-Frame-Options can stay blank and still fire `load`,
-    // so the watchdog checks the state we set ourselves, not the event.
-    const watchdog = setTimeout(() => {
-      if (state === 'ready') return;
-      state = 'failed';
-      frame.hidden = true;
-      frame.innerHTML = '<div class="booking-loading">Chargement du calendrier…</div>';
-      intro.hidden = false;
-      openBtn.innerHTML = 'Ouvrir la page de réservation ↗';
-      console.warn('[Neovio] Booking iframe did not load — falling back to a new tab.');
-    }, 10000);
-
-    iframe.addEventListener('load', () => {
-      clearTimeout(watchdog);
-      state = 'ready';
-      frame.classList.add('is-ready');
-    }, { once: true });
-
-    intro.hidden = true;
-    frame.hidden = false;
-    frame.appendChild(iframe);
-  });
 })();
 </script>
 
