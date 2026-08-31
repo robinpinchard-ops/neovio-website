@@ -762,6 +762,12 @@ section { position: relative; z-index: 1; }
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
+/* Un seul temoignage : sans ca, la carte occupe une demi-largeur et laisse un vide a droite */
+.testimonials.single {
+  grid-template-columns: 1fr;
+  max-width: 700px;
+  margin-inline: auto;
+}
 .testimonial {
   padding: 32px;
   border-radius: var(--r-lg);
@@ -1169,6 +1175,7 @@ footer {
       <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Audit gratuit</span>
       <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Sans engagement</span>
       <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Réponse sous 24h</span>
+      <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Certificat IA · HEC Liège</span>
     </div>
   </div>
 
@@ -1273,26 +1280,26 @@ footer {
   <div class="container">
     <div class="section-head reveal">
       <div class="section-eyebrow">// Résultats</div>
-      <h2>Des résultats concrets</h2>
-      <p>Du temps gagné, des erreurs réduites, des clients qui restent.</p>
+      <h2>Ce que vous obtenez, et quand</h2>
+      <p>Quatre engagements, tenus sur chaque audit.</p>
     </div>
 
     <div class="stats-grid">
       <div class="stat reveal">
-        <div class="stat-num">12h+</div>
-        <div class="stat-label">Heures économisées<br/>par semaine</div>
+        <div class="stat-num">0 €</div>
+        <div class="stat-label">L'audit, sans<br/>engagement</div>
       </div>
       <div class="stat reveal">
-        <div class="stat-num">3x</div>
-        <div class="stat-label">Réduction<br/>des erreurs</div>
+        <div class="stat-num">1 h</div>
+        <div class="stat-label">Sur place,<br/>chez vous</div>
       </div>
       <div class="stat reveal">
-        <div class="stat-num">&lt; 2 sem.</div>
-        <div class="stat-label">Délai avant<br/>les premiers résultats</div>
+        <div class="stat-num">48 h</div>
+        <div class="stat-label">Entre l'audit<br/>et votre rapport</div>
       </div>
       <div class="stat reveal">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Clients satisfaits<br/>de leur audit</div>
+        <div class="stat-num">4-6 sem.</div>
+        <div class="stat-label">Entre le oui et<br/>la mise en service</div>
       </div>
     </div>
 
@@ -1415,6 +1422,7 @@ footer {
           <div class="trust-badges">
             <span class="trust-badge"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> RGPD conforme</span>
             <span class="trust-badge"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Basés en Belgique</span>
+            <span class="trust-badge"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Certificat IA · HEC Liège</span>
             <span class="trust-badge"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Sans engagement</span>
           </div>
         </div>
