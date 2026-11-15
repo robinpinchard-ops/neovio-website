@@ -208,6 +208,7 @@
 .fig-axis { stroke: var(--text-mute); stroke-width: 1.5; fill: none; opacity: 0.7; }
 .fig-box { stroke: var(--text-mute); stroke-width: 1.5; fill: none; opacity: 0.7; }
 .fig-box-on { stroke: var(--cyan); opacity: 1; }
+.fig-arrow { fill: var(--text-mute); opacity: 0.7; }
 .fig-check { stroke: var(--cyan); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .step-badge {
   grid-column: 2;
