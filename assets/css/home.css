@@ -166,65 +166,7 @@
 }
 
 /* =========================================================
-   SERVICES — three editorial rows branching off the thread
-   ========================================================= */
-.service {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 5fr) minmax(0, 2fr);
-  gap: 20px clamp(24px, 4vw, 64px);
-  padding: clamp(28px, 4vw, 52px) 0;
-  border-top: 1px solid var(--line-2);
-}
-.service:last-child { border-bottom: 1px solid var(--line-2); }
-/* The row's rule reaches back to the thread and ends on a node. */
-.service::after {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: calc(-1 * var(--thread-off));
-  width: var(--thread-off);
-  height: 1px;
-  background: var(--line-2);
-}
-.service::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: calc(-1 * var(--thread-off) - 3px);
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--text-mute);
-  transition: background-color var(--dur-2) var(--ease-out) var(--dur-2), border-color var(--dur-2) var(--ease-out) var(--dur-2);
-  z-index: 1;
-}
-.service.in::before, html:not(.js) .service::before { background: var(--cyan); border-color: var(--cyan); }
-
-.service h3 {
-  font-size: clamp(26px, 3vw, 40px);
-  transition: transform var(--dur-2) var(--ease-out);
-}
-.service:hover h3 { transform: translateX(var(--shift-1)); }
-.service p { max-width: 48ch; color: var(--text-dim); }
-
-.tags {
-  list-style: none;
-  margin: 0; padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-}
-.tag {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: var(--text-dim);
-}
-
-/* =========================================================
-   PROCESS — heading stays, the three steps scroll past it
+   METHOD — heading stays, the four steps scroll past it
    ========================================================= */
 .process-grid {
   display: grid;
@@ -240,16 +182,31 @@
 .steps { list-style: none; margin: 0; padding: 0; }
 .step {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-columns: 56px minmax(0, 1fr) 120px;
   column-gap: 24px;
   padding: clamp(32px, 5vw, 60px) 0;
   border-top: 1px solid var(--line-2);
 }
 .step:last-child { border-bottom: 1px solid var(--line-2); }
 .step-num { grid-row: 1 / span 3; padding-top: 0.75em; font-size: 13px; }
-.step h3 { font-size: clamp(24px, 2.4vw, 34px); }
-.step p { margin-top: 14px; max-width: 52ch; color: var(--text-dim); }
+.step h3 { grid-column: 2; font-size: clamp(24px, 2.4vw, 34px); }
+.step p { grid-column: 2; margin-top: 14px; max-width: 52ch; color: var(--text-dim); }
+/* Step figures. Read top to bottom they are the diagram of the method:
+   everything observed, the leads among it, the leads ranked, one in service. */
+.step-fig {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  align-self: center;
+  width: 120px;
+  height: 72px;
+}
+.fig-off { fill: var(--text-mute); opacity: 0.55; }
+.fig-on { fill: var(--cyan); }
+.fig-line { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+.fig-ring { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+.fig-check { stroke: var(--cyan); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .step-badge {
+  grid-column: 2;
   justify-self: start;
   margin-top: 22px;
   padding: 6px 10px;
@@ -536,11 +493,10 @@
    MOBILE COMPOSITION
    ========================================================= */
 @media (max-width: 860px) {
-  .service { grid-template-columns: 1fr; gap: 14px; }
-  .tags { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: 6px; }
   .process-grid { grid-template-columns: 1fr; }
   .process-head { position: static; margin-bottom: 40px; }
   .step { grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }
+  .step-fig { grid-column: 2; grid-row: auto; justify-self: start; width: 100px; height: 60px; margin-top: 24px; }
   .contact-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
