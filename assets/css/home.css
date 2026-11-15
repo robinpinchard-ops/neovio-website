@@ -197,6 +197,7 @@
   grid-column: 3;
   grid-row: 1 / span 3;
   align-self: center;
+  order: 1;
   width: 120px;
   height: 72px;
 }
@@ -204,6 +205,7 @@
 .fig-on { fill: var(--cyan); }
 .fig-line { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
 .fig-ring { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+.fig-axis { stroke: var(--text-mute); stroke-width: 1.5; fill: none; opacity: 0.7; }
 .fig-check { stroke: var(--cyan); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .step-badge {
   grid-column: 2;
@@ -225,7 +227,7 @@
    ========================================================= */
 .results { padding: var(--section-pad) 0; }
 .timeline {
-  --num-size: clamp(56px, 15vw, 96px);
+  --num-size: clamp(36px, 10vw, 52px);
   list-style: none;
   margin: 0; padding: 0;
   display: grid;
@@ -240,21 +242,13 @@
   font-family: var(--font-display);
   font-size: var(--num-size);
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.05em;
+  /* 1.2: the clip must leave room for descenders (« Un plan », « Une analyse ») */
+  line-height: 1.2;
+  letter-spacing: -0.04em;
   white-space: nowrap;
-  /* room for the descender-less digits to rise from below without clipping the € */
-  padding-bottom: 0.08em;
 }
 .milestone-num > span { display: block; }
-.milestone-num .u {
-  margin-left: 0.06em;
-  font-size: 0.4em;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--text-dim);
-}
-.milestone-label { margin-top: 14px; color: var(--text-dim); font-size: 15px; line-height: 1.45; }
+.milestone-label { margin-top: 10px; max-width: 34ch; color: var(--text-dim); font-size: 15px; line-height: 1.5; }
 
 @media (min-width: 560px) {
   .timeline { grid-template-columns: 1fr 1fr; column-gap: 32px; }
@@ -275,10 +269,11 @@
   .motion .results .reveal { opacity: 1; transform: none; transition: none; }
 
   .motion .timeline {
-    --num-size: clamp(64px, 8.2vw, 128px);
-    --axis-y: calc(var(--num-size) * 1.08 + 28px);
+    --num-size: clamp(38px, 4.1vw, 56px);
+    --axis-y: calc(var(--num-size) * 1.2 + 28px);
     position: relative;
-    grid-template-columns: 1fr 1fr 1fr 1.3fr;
+    /* widths follow the words; each --x in the markup is the column's start */
+    grid-template-columns: 1fr 1.2fr 0.9fr 1.25fr;
     column-gap: 0;
   }
   /* Axis: a track, and the signature gradient filling it — the only gradient on this screen. */
@@ -317,7 +312,7 @@
     transform: scale(var(--k));
     z-index: 1;
   }
-  .motion .milestone-num { height: calc(var(--num-size) * 1.08); padding-bottom: 0; }
+  .motion .milestone-num { height: calc(var(--num-size) * 1.2); }
   .motion .milestone-num > span { transform: translateY(calc((1 - var(--k)) * 110%)); }
   .motion .milestone-label {
     margin-top: 56px;
