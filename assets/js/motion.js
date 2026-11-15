@@ -116,6 +116,7 @@ function initHeroThread(scene) {
   const canvas = document.getElementById('hero-thread');
   const pin = canvas && canvas.parentElement;
   const rule = pin && pin.querySelector('.hero-trust');
+  const knot = pin && pin.querySelector('.hero-knot'); // band reserved for the tangle on small screens
   if (!canvas || !rule) return;
   const ctx = canvas.getContext('2d');
 
@@ -137,12 +138,15 @@ function initHeroThread(scene) {
     const x0 = Math.round(foot.offsetLeft + rule.offsetLeft - threadOff) + 0.5; // where the page thread runs
     const yRule = Math.round(foot.offsetTop + rule.offsetTop) + 0.5;            // the hero's bottom rule
     const radius = small ? 10 : 18;
+    // Small screens: the tangle lives in its own band between the buttons and
+    // the rule, so it never sits on the text or on a button.
+    const bandTop = knot ? knot.offsetTop : yRule - H * 0.16;
+    const bandH = knot && knot.offsetHeight ? knot.offsetHeight : H * 0.14;
 
     // End state: in from the right edge, down to the rule, along it, round the
     // corner, and out through the bottom at the thread's x.
     const path = [];
-    // On small screens everything stays below the text block, in the gap above the rule.
-    const a = [W + 24, H * (small ? 0.62 : 0.2)], b = [W * (small ? 0.95 : 0.9), H * (small ? 0.64 : 0.24)], c = [W * 0.97, yRule], d = [W * (small ? 0.8 : 0.72), yRule];
+    const a = [W + 24, small ? bandTop + bandH * 0.15 : H * 0.2], b = [W * (small ? 0.95 : 0.9), small ? bandTop + bandH * 0.2 : H * 0.24], c = [W * 0.97, yRule], d = [W * (small ? 0.8 : 0.72), yRule];
     for (let i = 0; i <= 40; i++) {
       const t = i / 40, u = 1 - t;
       path.push([
@@ -163,14 +167,14 @@ function initHeroThread(scene) {
     // every visit, no layout-dependent randomness.
     const rand = mulberry32(11);
     const count = small ? 6 : 11;
-    const cx = W * (small ? 0.6 : 0.74), cy = (small ? yRule - H * 0.1 : H * 0.44);
-    const rx = W * (small ? 0.3 : 0.22), ry = H * (small ? 0.075 : 0.32);
+    const cx = W * (small ? 0.6 : 0.74), cy = small ? bandTop + bandH * 0.5 : H * 0.44;
+    const rx = W * (small ? 0.3 : 0.22), ry = small ? bandH * 0.42 : H * 0.32;
     strands = [];
     for (let i = 0; i < count; i++) {
       const pts = [];
       let angle = rand() * Math.PI * 2;
       for (let j = 0; j < POINTS; j++) {
-        if (j === 0) pts.push([W + 24, small ? yRule - H * (0.02 + rand() * 0.2) : H * (0.08 + rand() * 0.6), 0, 0]);
+        if (j === 0) pts.push([W + 24, small ? bandTop + bandH * (0.1 + rand() * 0.8) : H * (0.08 + rand() * 0.6), 0, 0]);
         else if (j === POINTS - 1) pts.push([lerp(x0, W, 0.3 + rand() * 0.68), H + 24, 0, 0]);
         else {
           angle += 0.5 + rand() * 1.5;
@@ -189,6 +193,9 @@ function initHeroThread(scene) {
     const intro = easeInOut(clamp01((now - startTime) / INTRO_MS));
     const time = now / 1000;
     const small = W < 861;
+    // Small screens are not pinned: the text would scroll away before the
+    // thread settles. So it also untangles on its own, shortly after it is drawn.
+    if (small) p = Math.max(p, clamp01((now - startTime - INTRO_MS - 500) / 2400));
     ctx.clearRect(0, 0, W, H);
     ctx.lineWidth = 1.2;
     ctx.lineJoin = 'round';

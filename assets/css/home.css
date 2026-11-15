@@ -12,7 +12,7 @@
   position: relative;
   min-height: 100svh;
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr auto auto;
   padding-top: var(--nav-h);
   overflow: clip;
 }
@@ -103,7 +103,9 @@
 }
 
 @media (max-width: 860px) {
-  .hero-content { align-self: start; padding-top: clamp(40px, 9vh, 88px); }
+  .hero-content { align-self: start; padding-top: clamp(40px, 9vh, 88px); padding-bottom: 8px; }
+  /* Reserved band for the tangle (canvas), so it never covers text or buttons. */
+  .motion .hero-knot { height: clamp(120px, 18svh, 168px); }
   .hero-ctas .btn { flex: 1 1 100%; }
   .hero-trust { display: grid; grid-template-columns: 1fr 1fr; }
 }
