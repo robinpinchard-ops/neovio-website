@@ -9,21 +9,21 @@
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('../fonts/inter-400-latin.woff2') format('woff2');
+  src: url('../fonts/inter-var-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Space Grotesk';
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('../fonts/space-grotesk-400-latin.woff2') format('woff2');
+  src: url('../fonts/space-grotesk-var-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('../fonts/jetbrains-mono-400-latin.woff2') format('woff2');
+  src: url('../fonts/jetbrains-mono-var-latin.woff2') format('woff2');
 }
 
 /* Scroll progress of a scene, 0 → 1, written by assets/js/motion.js.
@@ -168,13 +168,13 @@ img { max-width: 100%; display: block; }
   height: var(--nav-h);
   display: flex;
   align-items: center;
+  /* Always opaque: reading pages have no script to flag the scrolled state. */
+  background: var(--bg);
   border-bottom: 1px solid transparent;
-  transition: background var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+  transition: border-color var(--dur-2) var(--ease-out);
+  view-transition-name: site-nav;
 }
-.nav.scrolled {
-  background: rgba(5, 10, 20, 0.97);
-  border-bottom-color: var(--line);
-}
+.nav.scrolled { border-bottom-color: var(--line); }
 .nav-inner {
   display: flex;
   align-items: center;
@@ -291,7 +291,8 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 860px) {
   .nav-links { display: none; }
-  .nav .btn-primary { display: none; }
+  /* Pages with a menu button fold the CTA into the menu; the others keep it. */
+  .nav-inner:has(.nav-toggle) > .btn-primary { display: none; }
   .nav-toggle { display: inline-flex; }
   .brand-logo img { height: 26px; }
 }
@@ -378,3 +379,16 @@ footer {
 html.lenis, html.lenis body { height: auto; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
 .lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+
+/* =========================================================
+   PAGE TRANSITIONS — cross-document, progressive enhancement.
+   Both pages opt in through this file. The nav holds still; a blog title
+   morphs into its article heading (names set inline, unique per page).
+   ========================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-group(*) {
+    animation-duration: var(--dur-2);
+    animation-timing-function: var(--ease-in-out);
+  }
+}
