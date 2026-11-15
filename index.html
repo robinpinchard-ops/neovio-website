@@ -6,15 +6,10 @@
 <title>Neovio · Automatisation IA · Liège, Belgique</title>
 <meta name="description" content="Neovio automatise vos tâches répétitives grâce à l'IA. Audit gratuit pour indépendants et PME à Liège, Belgique." />
 
-<!-- Fonts -->
-
-<!-- HLS.js for the spatial video background -->
-<!-- hls.js auto-hébergé (v1.7.2, cf. assets/hls.version.txt). Servi avec le site
-     plutôt que depuis un CDN : aucune requête tierce au chargement, et la version
-     ne peut pas changer sous nos pieds. Mise à jour = remplacer le fichier. -->
-<script src="assets/hls.min.js"></script>
-
-<script>document.documentElement.classList.add('js')</script>
+<!-- Flags set before first paint: `js` enables the hidden start states of
+     reveals, `motion` the scroll-driven compositions. Neither exists without
+     JavaScript, and `motion` never under prefers-reduced-motion. -->
+<script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion')})(document.documentElement)</script>
 <link rel="preload" href="assets/fonts/space-grotesk-400-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="assets/css/site.css" />
@@ -23,19 +18,12 @@
 </head>
 <body>
 
-<!-- Site-wide background video (kept OUTSIDE sections so it isn't trapped
-     by their stacking context — sections have z-index:1 so any fixed child
-     of a section gets painted under siblings as you scroll past). -->
-<div class="hero-fallback" aria-hidden="true"></div>
-<video class="hero-video" id="hero-video" autoplay muted loop playsinline aria-hidden="true"></video>
-<div class="hero-overlay" aria-hidden="true"></div>
-
-<div class="ambient" aria-hidden="true"></div>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
 
 <!-- ============== NAVIGATION ============== -->
 <nav class="nav" id="nav">
   <div class="container nav-inner">
-    <a href="#hero" class="brand-logo" aria-label="Neovio - Accueil" style="color: rgb(255, 255, 255)">
+    <a href="#hero" class="brand-logo" aria-label="Neovio - Accueil">
       <img src="assets/neovio-logo-white.png?v=8" alt="Neovio — Agence d'automatisation et IA" />
     </a>
     <div class="nav-links">
@@ -49,10 +37,10 @@
       Réserver mon audit gratuit
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
-    <button class="nav-toggle" aria-label="Menu" id="nav-toggle"><span></span></button>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" id="nav-toggle"><span></span></button>
   </div>
 </nav>
-<div class="mobile-menu" id="mobile-menu">
+<div class="mobile-menu" id="mobile-menu" data-lenis-prevent>
   <a href="#services">Nos services</a>
   <a href="#processus">Notre processus</a>
   <a href="#resultats">Résultats</a>
@@ -61,36 +49,48 @@
   <a href="#contact" class="btn btn-primary">Réserver mon audit gratuit</a>
 </div>
 
-<!-- ============== HERO ============== -->
-<section class="hero" id="hero">
-  <div class="container hero-content">
-    <span class="pill"><span class="dot"></span> Automatisation IA · Liège, Belgique</span>
-    <h1>
-      Libérez votre temps.<br />
-      <span class="grad">Accélérez votre croissance.</span>
-    </h1>
-    <p class="lead">
-      Neovio automatise vos tâches répétitives grâce à l'IA, pour que vous
-      puissiez vous concentrer sur ce qui compte vraiment.
-    </p>
-    <div class="hero-ctas">
-      <a href="#contact" class="btn btn-primary btn-lg">
-        Réserver mon audit gratuit
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#services" class="btn btn-ghost btn-lg">Découvrir nos services</a>
+<main id="contenu">
+
+<!-- ============== HERO ==============
+     data-scrub="pin": assets/js/motion.js writes the scroll progress of this
+     track and draws the thread on the canvas. Without it the hero is static. -->
+<section class="hero" id="hero" data-scrub="pin">
+  <div class="hero-pin">
+    <canvas class="hero-canvas" id="hero-thread" aria-hidden="true"></canvas>
+
+    <div class="container hero-content">
+      <p class="hero-kicker mono intro" style="--i:0">Automatisation IA · Liège, Belgique</p>
+      <h1>
+        <span class="h1-line"><span>Libérez votre temps.</span></span>
+        <span class="h1-line"><span style="--i:1">Accélérez votre croissance.</span></span>
+      </h1>
+      <p class="lead intro" style="--i:3">
+        Neovio automatise vos tâches répétitives grâce à l'IA, pour que vous
+        puissiez vous concentrer sur ce qui compte vraiment.
+      </p>
+      <div class="hero-ctas intro" style="--i:4">
+        <a href="#contact" class="btn btn-primary btn-lg">
+          Réserver mon audit gratuit
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#services" class="btn btn-ghost btn-lg">Découvrir nos services</a>
+      </div>
     </div>
 
-    <div class="hero-trust">
-      <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Audit gratuit</span>
-      <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Sans engagement</span>
-      <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Réponse sous 24h</span>
-      <span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Certificat IA · HEC Liège</span>
+    <div class="container hero-foot intro" style="--i:6">
+      <ul class="hero-trust">
+        <li>Audit gratuit</li>
+        <li>Sans engagement</li>
+        <li>Réponse sous 24h</li>
+        <li>Certificat IA · HEC Liège</li>
+      </ul>
     </div>
   </div>
-
-  <a href="#services" class="scroll-cue" aria-label="Faire défiler"></a>
 </section>
+
+<!-- Everything after the hero shares one thread, drawn down the left margin. -->
+<div class="flow">
+<div class="container thread-rail" aria-hidden="true"><div class="thread" data-scrub="thread"></div></div>
 
 <!-- ============== SERVICES ============== -->
 <section class="section" id="services">
@@ -341,6 +341,9 @@
   </div>
 </section>
 
+</div>
+</main>
+
 <!-- ============== FOOTER ============== -->
 <footer>
   <div class="container">
@@ -371,126 +374,5 @@
   </div>
 </footer>
 
-<script>
-/* ============================================================
-   1. HLS video background
-   ============================================================ */
-(function initHeroVideo() {
-  const video = document.getElementById('hero-video');
-  const src = 'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8';
-
-  function reveal() { video.classList.add('ready'); }
-
-  if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    // Native HLS (Safari, iOS)
-    video.src = src;
-    video.addEventListener('loadeddata', reveal, { once: true });
-  } else if (window.Hls && Hls.isSupported()) {
-    const hls = new Hls({ enableWorker: true, lowLatencyMode: false });
-    hls.loadSource(src);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      video.play().catch(() => {});
-      reveal();
-    });
-    hls.on(Hls.Events.ERROR, (_e, data) => {
-      if (data && data.fatal) {
-        console.warn('[Neovio] HLS fatal error, falling back to gradient.');
-        hls.destroy();
-      }
-    });
-  } else {
-    // No HLS support -> rely on the static gradient fallback (already in DOM)
-    console.info('[Neovio] HLS not supported, using gradient fallback.');
-  }
-})();
-
-/* ============================================================
-   1b. Scroll-reactive hero video (parallax + dynamic playback)
-   ============================================================ */
-(function initHeroScroll() {
-  const video = document.getElementById('hero-video');
-  const hero = document.getElementById('hero');
-  if (!video || !hero) return;
-
-  const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  let lastY = window.scrollY;
-  let lastT = performance.now();
-  let velocity = 0;          // px / ms, smoothed
-  let targetRate = 1;        // target playback rate
-  let currentRate = 1;       // actual playback rate (eased toward target)
-  let ticking = false;
-  let idleTimer = null;
-
-  function onScroll() {
-    const now = performance.now();
-    const y = window.scrollY;
-    const dy = y - lastY;
-    const dt = Math.max(1, now - lastT);
-    // exponential smoothing on velocity
-    const inst = dy / dt;
-    velocity = velocity * 0.7 + inst * 0.3;
-    lastY = y; lastT = now;
-
-    if (!prefersReduce) {
-      // Dynamic playback: fast scroll → faster video, capped 0.5..2.5x
-      targetRate = Math.max(0.5, Math.min(2.5, 1 + Math.abs(velocity) * 6));
-    }
-
-    // Idle reset
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => { targetRate = 1; velocity = 0; }, 220);
-
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }
-
-  function update() {
-    ticking = false;
-    const y = window.scrollY;
-    const docH = Math.max(1, (document.documentElement.scrollHeight - window.innerHeight));
-    const p = Math.max(0, Math.min(1, y / docH));
-
-    // Read live values from the Tweaks panel via CSS custom properties
-    const cs = getComputedStyle(document.documentElement);
-    const amp = parseFloat(cs.getPropertyValue('--motion-amp')) || 1;
-    const baseOp = parseFloat(cs.getPropertyValue('--vid-base-opacity')) || 0.55;
-    const vidTint = (cs.getPropertyValue('--vid-tint') || '').trim();
-
-    // All scroll-driven motion scales with --motion-amp
-    const translate = -p * window.innerHeight * 0.85 * amp;
-    const scale = 1 + p * 0.22 * amp;
-    const sat = (1.10 + p * 0.30 * amp).toFixed(2);
-    const hue = (p * 30 * amp).toFixed(1);
-    const blur = (p * 0.8 * Math.max(0.4, amp)).toFixed(2);
-    const opacity = Math.max(0.45, baseOp - p * 0.10).toFixed(3);
-
-    video.style.transform = 'translate3d(0, ' + translate.toFixed(1) + 'px, 0) scale(' + scale.toFixed(3) + ')';
-    video.style.filter = vidTint + ' saturate(' + sat + ') contrast(1.08) hue-rotate(' + hue + 'deg) blur(' + blur + 'px)';
-    if (video.classList.contains('ready')) video.style.opacity = opacity;
-
-    if (!prefersReduce && !video.paused) {
-      currentRate += (targetRate - currentRate) * 0.12;
-      try { video.playbackRate = Math.max(0.25, Math.min(3, currentRate)); } catch (_) {}
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => requestAnimationFrame(update), { passive: true });
-  // Drive a small idle loop so the eased playback rate keeps converging back to 1
-  (function tick() {
-    if (Math.abs(currentRate - targetRate) > 0.01) {
-      currentRate += (targetRate - currentRate) * 0.08;
-      try { video.playbackRate = Math.max(0.25, Math.min(3, currentRate)); } catch (_) {}
-    }
-    requestAnimationFrame(tick);
-  })();
-  update();
-})();
-
-</script>
 </body>
 </html>

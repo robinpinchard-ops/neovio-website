@@ -1,172 +1,165 @@
 /* =========================================================
-   AMBIENT BACKGROUND (subtle grid + glows under sections)
+   Neovio — home page
    ========================================================= */
-.ambient {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(900px 600px at 80% 10%, rgba(123,79,237,0.10), transparent 60%),
-    radial-gradient(900px 600px at 10% 60%, rgba(79,142,247,0.08), transparent 60%),
-    radial-gradient(600px 400px at 60% 100%, rgba(0,212,255,0.06), transparent 60%);
-}
-.ambient::before {
-  content: "";
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at 50% 30%, #000 30%, transparent 75%);
-}
 
 /* =========================================================
    HERO
+   Static by default. With `.motion` on a wide screen it becomes a tall track
+   whose content stays pinned while the thread untangles (assets/js/motion.js).
    ========================================================= */
-.hero {
+.hero { position: relative; z-index: 1; }
+.hero-pin {
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding: 140px 0 100px;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding-top: var(--nav-h);
+  overflow: clip;
 }
-.hero-fallback {
+@media (min-width: 861px) and (min-height: 620px) {
+  .motion .hero { height: 170svh; }
+  .motion .hero-pin { position: sticky; top: 0; height: 100svh; }
+}
+
+.hero-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
-}
-/* The video is FIXED to the viewport so the scroll-driven transform
-   is always visible — it stays pinned while you scroll through the hero. */
-.hero-video {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
   pointer-events: none;
+  display: none;
 }
-.hero-fallback {
-  background:
-    radial-gradient(1200px 800px at 30% 20%, #1a2348 0%, #0D1629 40%, #050A14 80%);
-}
-.hero-video {
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-  filter: saturate(1.05) contrast(1.05);
-  transform-origin: 50% 40%;
-  will-change: transform, filter, opacity;
-}
-.hero-video.ready { opacity: 0.85; }
-
-/* Global fixed overlay sitting above the video, below content,
-   keeps text readable while video plays everywhere */
-.hero-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(5,10,20,0.30) 0%, rgba(5,10,20,0.15) 30%, rgba(5,10,20,0.40) 75%, rgba(5,10,20,0.55) 100%),
-    radial-gradient(800px 600px at 50% 60%, rgba(123,79,237,0.18), transparent 60%);
-}
+.motion .hero-canvas { display: block; }
 
 .hero-content {
   position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 880px;
-  margin: 0 auto;
+  align-self: center;
+  padding-block: clamp(32px, 6vh, 72px);
 }
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 14px 7px 12px;
-  border-radius: var(--r-pill);
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border-2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text);
-  letter-spacing: 0.01em;
-}
-.pill .dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 0 rgba(0,229,160,0.6);
-  animation: pulse 1.8s infinite;
-}
-@keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(0,229,160,0.55); }
-  70%  { box-shadow: 0 0 0 8px rgba(0,229,160,0); }
-  100% { box-shadow: 0 0 0 0 rgba(0,229,160,0); }
-}
+.hero-kicker { margin-bottom: clamp(20px, 3vh, 36px); }
 
 .hero h1 {
-  font-size: calc(clamp(40px, 6.4vw, 78px) * var(--type-scale, 1));
+  font-size: clamp(40px, 6.4vw, 96px);
   font-weight: 700;
-  margin: 22px 0 22px;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
 }
-.hero h1 .grad {
-  background: linear-gradient(135deg, #4F8EF7 0%, #00D4FF 50%, #7B4FED 100%);
-  -webkit-background-clip: text; background-clip: text;
-  color: transparent;
+/* Each sentence rises from behind its own baseline. The padding keeps
+   descenders inside the clip; the negative margin gives the space back. */
+.h1-line {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
 }
-.hero p.lead {
-  font-size: clamp(16px, 1.6vw, 19px);
+.h1-line > span { display: block; }
+
+.hero .lead {
+  margin-top: clamp(24px, 4vh, 40px);
+  max-width: 46ch;
+  font-size: clamp(16px, 1.35vw, 19px);
   color: var(--text-dim);
-  max-width: 640px;
-  margin: 0 auto 36px;
 }
 .hero-ctas {
+  margin-top: clamp(28px, 4.5vh, 44px);
   display: flex;
   gap: 12px;
-  justify-content: center;
   flex-wrap: wrap;
 }
 
+.hero-foot { position: relative; }
 .hero-trust {
-  margin-top: 46px;
+  list-style: none;
+  margin: 0;
+  padding: 22px 0 26px;
   display: flex;
-  gap: 22px;
-  justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
+  gap: 8px clamp(24px, 4vw, 56px);
+  /* The thread's resting place. Under `.motion` the canvas draws it instead. */
+  border-top: 1px solid var(--cyan);
   font-size: 13px;
-  color: var(--text-mute);
+  color: var(--text-dim);
 }
-.hero-trust span { display: inline-flex; align-items: center; gap: 8px; }
-.hero-trust svg { color: var(--green); }
+.motion .hero-trust { border-top-color: transparent; }
 
-.scroll-cue {
+/* Load sequence — CSS only, so it never waits for a script. The start state
+   keeps a sliver of opacity: the H1 is the LCP element and must count as
+   painted on the first frame. */
+@keyframes rise {
+  from { opacity: 0.01; transform: translateY(60%); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(var(--shift-2)); }
+  to   { opacity: 1; transform: none; }
+}
+.js .h1-line > span {
+  animation: rise var(--dur-3) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger) * 2);
+}
+.js .intro {
+  animation: fade-up var(--dur-3) var(--ease-out) both;
+  animation-delay: calc(120ms + var(--i, 0) * var(--stagger));
+}
+
+@media (max-width: 860px) {
+  .hero-content { align-self: start; padding-top: clamp(40px, 9vh, 88px); }
+  .hero-ctas .btn { flex: 1 1 100%; }
+  .hero-trust { display: grid; grid-template-columns: 1fr 1fr; }
+}
+
+/* =========================================================
+   THREAD
+   One line down the left margin, from the hero to the last section. The
+   track is always there; the cyan fill follows the reading position.
+   ========================================================= */
+.flow { position: relative; }
+.thread-rail {
   position: absolute;
-  bottom: 28px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  width: 28px; height: 46px;
-  border-radius: 14px;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  display: grid; place-items: start center;
-  padding-top: 8px;
+  inset: 0 0 var(--section-pad);
+  margin-inline: auto;
+  pointer-events: none;
 }
-.scroll-cue::after {
+.thread {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: calc(-1 * var(--thread-off));
+  width: 1px;
+  background: var(--line);
+}
+.thread::before {
   content: "";
-  width: 3px; height: 8px; border-radius: 2px;
-  background: rgba(255,255,255,0.7);
-  animation: cue 1.7s ease-in-out infinite;
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  transform-origin: top;
+  transform: scaleY(var(--p));
 }
-@keyframes cue {
-  0% { transform: translateY(0); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: translateY(16px); opacity: 0; }
+.thread::after {
+  content: "";
+  position: absolute;
+  left: -3px; bottom: -3px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: calc((var(--p) - 0.985) * 80);
+}
+
+/* ---------------------------------------------------------
+   Legacy aliases — tokens the sections below still use.
+   Removed with the section redesign (lot 3).
+   --------------------------------------------------------- */
+:root {
+  --surface: rgba(255,255,255,0.03);
+  --surface-2: rgba(255,255,255,0.05);
+  --border: var(--line);
+  --border-2: var(--line-2);
+  --purple: var(--violet);
+  --green: var(--mint);
+  --grad-soft: linear-gradient(135deg, rgba(79,142,247,0.18) 0%, rgba(123,79,237,0.18) 100%);
+  --r-pill: 999px;
+  --card-pad: 36px;
+  --type-scale: 1;
 }
 
 /* =========================================================
@@ -644,7 +637,6 @@ section { position: relative; z-index: 1; }
   .nav-links { display: none; }
   .nav-toggle { display: inline-flex; }
   .nav .btn-primary { display: none; }
-  .hero { padding: 120px 0 80px; }
   .field-row { grid-template-columns: 1fr; }
   .form-card { padding: 24px; }
   .contact-switch button { font-size: 13.5px; padding: 10px 8px; }

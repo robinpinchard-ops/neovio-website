@@ -1,3 +1,8 @@
+/* =========================================================
+   Neovio — shared styles (every page)
+   Fonts, tokens, base, navigation, buttons, footer, motion rules.
+   ========================================================= */
+
 /* Self-hosted variable fonts: one file per family, no third-party request */
 @font-face {
   font-family: 'Inter';
@@ -21,44 +26,53 @@
   src: url('../fonts/jetbrains-mono-400-latin.woff2') format('woff2');
 }
 
+/* Scroll progress of a scene, 0 → 1, written by assets/js/motion.js.
+   The initial value is the END state: with no JS, or under reduced motion,
+   every scrubbed scene simply shows its finished composition. */
+@property --p {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
 /* =========================================================
    TOKENS
    ========================================================= */
 :root {
+  /* Colour — BRAND.md, dark theme */
   --bg:        #050A14;
   --bg-2:      #0A1124;
   --bg-3:      #0D1629;
-  --surface:   rgba(255,255,255,0.03);
-  --surface-2: rgba(255,255,255,0.05);
-  --border:    rgba(255,255,255,0.08);
-  --border-2:  rgba(255,255,255,0.14);
+  --line:      rgba(232, 236, 244, 0.10);
+  --line-2:    rgba(232, 236, 244, 0.20);
   --text:      #E8ECF4;
   --text-dim:  #98A2B8;
-  --text-mute: #6B7693;
+  --text-mute: #7D88A3;   /* #6B7693 lightened: AA on --bg for small text */
 
   --blue:    #4F8EF7;
-  --purple:  #7B4FED;
   --cyan:    #00D4FF;
-  --green:   #00E5A0;
+  --violet:  #7B4FED;
+  --mint:    #00E5A0;
+  --coral:   #FF5D6C;
 
-  --grad:    linear-gradient(135deg, #4F8EF7 0%, #7B4FED 100%);
-  --grad-soft: linear-gradient(135deg, rgba(79,142,247,0.18) 0%, rgba(123,79,237,0.18) 100%);
+  /* Signature gradient: one element per screen, never more. Stretched so the
+     violet end falls outside the box — dark label text stays AA on all of it. */
+  --grad: linear-gradient(135deg, #4F8EF7 0%, #00D4FF 50%, #7B4FED 100%);
 
-  --glow:    0 8px 30px rgba(79,142,247,0.35), 0 4px 14px rgba(123,79,237,0.30);
-  --glow-soft: 0 4px 18px rgba(79,142,247,0.18);
+  /* Type */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 
+  /* Layout */
+  --gutter: clamp(20px, 5vw, 72px);
+  --container: 1240px;
+  --thread-off: 28px;          /* distance between the thread and the content edge */
+  --nav-h: 72px;
+  --section-pad: clamp(88px, 12vw, 168px);
   --r-sm: 8px;
-  --r-md: 14px;
-  --r-lg: 20px;
-  --r-pill: 999px;
-
-  --container: 1200px;
-
-  --section-pad: 120px;
-  --type-scale: 1;
-  --card-pad: 36px;
-  --motion-amp: 1;
-  --vid-base-opacity: 0.85;
+  --r-md: 12px;
+  --r-lg: 16px;
 
   /* Motion system: every animation on the site picks from these */
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);    /* entrances */
@@ -72,67 +86,94 @@
   --shift-3: 64px;
   --stagger: 60ms;
 }
+@media (max-width: 720px) {
+  :root { --thread-off: 10px; --nav-h: 60px; }
+}
 
 /* =========================================================
    BASE
    ========================================================= */
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 /* No scroll-behavior: smooth here: it fights Lenis. Anchors clear the fixed nav. */
-html { background: var(--bg); scroll-padding-top: 84px; }
+html { background: var(--bg); scroll-padding-top: calc(var(--nav-h) + 12px); }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: transparent;
+  font-family: var(--font-body);
+  background: var(--bg);
   color: var(--text);
-  line-height: 1.55;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   /* clip, not hidden: hidden makes body a scroll container and breaks position: sticky */
   overflow-x: clip;
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
   margin: 0;
   text-wrap: balance;
 }
-
 p { margin: 0; text-wrap: pretty; }
-
 a { color: inherit; text-decoration: none; }
-
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
-
 img { max-width: 100%; display: block; }
-
-::selection { background: rgba(79,142,247,0.35); color: #fff; }
+::selection { background: rgba(0, 212, 255, 0.28); color: #fff; }
 
 .container {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 24px;
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
 }
+
+/* Mono label: `// Nos services`, step numbers, tool names */
+.section-eyebrow,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 200;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  background: var(--text);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
 
 /* =========================================================
    NAVIGATION
    ========================================================= */
 .nav {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  inset: 0 0 auto 0;
   z-index: 100;
-  padding: 18px 0;
-  transition: backdrop-filter .25s, background .25s, padding .25s, border-color .25s;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid transparent;
+  transition: background var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
 }
 .nav.scrolled {
-  background: rgba(5, 10, 20, 0.72);
-  backdrop-filter: saturate(140%) blur(14px);
-  -webkit-backdrop-filter: saturate(140%) blur(14px);
-  border-bottom-color: var(--border);
-  padding: 12px 0;
+  background: rgba(5, 10, 20, 0.97);
+  border-bottom-color: var(--line);
 }
 .nav-inner {
   display: flex;
@@ -140,136 +181,126 @@ img { max-width: 100%; display: block; }
   justify-content: space-between;
   gap: 24px;
 }
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 22px;
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-.brand-mark {
-  width: 30px; height: 30px;
-  display: grid; place-items: center;
-  border-radius: 9px;
-  background: var(--grad);
-  box-shadow: var(--glow-soft);
-  position: relative;
-}
-.brand-mark svg { width: 16px; height: 16px; }
-.brand-name { letter-spacing: 0.02em; }
-.brand-name b { color: #fff; }
-
-/* Logo image — transparent, sits directly on the dark background with a subtle glow */
-.brand-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  transition: transform .25s ease, filter .25s ease;
-}
-.brand-logo img {
-  display: block;
-  height: 38px;
-  width: auto;
-  filter: drop-shadow(0 4px 18px rgba(43, 180, 230, 0.18));
-  transition: filter .35s ease, transform .25s ease;
-}
-.brand-logo:hover { transform: translateY(-1px); }
-.brand-logo:hover img { filter: drop-shadow(0 6px 22px rgba(43, 180, 230, 0.45)); }
-
-/* Slightly tighten when nav is scrolled so the logo still sits comfortably */
-.nav.scrolled .brand-logo img { height: 32px; }
-
-.footer-brand .brand-logo img { height: 46px; }
-
-@media (max-width: 900px) {
-  .brand-logo img { height: 32px; }
-  .nav.scrolled .brand-logo img { height: 28px; }
-  .footer-brand .brand-logo img { height: 38px; }
-}
-@media (max-width: 640px) {
-  .brand-logo img { height: 28px; }
-  .nav.scrolled .brand-logo img { height: 26px; }
-  .footer-brand .brand-logo img { height: 34px; }
-}
+.brand-logo { display: inline-flex; align-items: center; }
+.brand-logo img { height: 30px; width: auto; }
+.footer-brand .brand-logo img { height: 36px; }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(16px, 2.4vw, 36px);
 }
 .nav-links a {
-  padding: 9px 14px;
-  border-radius: var(--r-pill);
+  position: relative;
+  padding: 8px 0;
   color: var(--text-dim);
   font-size: 14px;
   font-weight: 500;
-  transition: color .2s, background .2s;
+  transition: color var(--dur-1) ease;
 }
-.nav-links a:hover { color: #fff; background: var(--surface); }
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 2px;
+  height: 1px;
+  background: var(--cyan);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { transform: scaleX(1); }
 
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 11px 18px;
-  border-radius: var(--r-pill);
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
   font-size: 14px;
   font-weight: 600;
-  font-family: inherit;
-  letter-spacing: -0.005em;
-  transition: transform .15s ease, box-shadow .25s ease, background .2s, border-color .2s;
+  line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
+  transition: border-color var(--dur-1) ease, background-color var(--dur-1) ease, background-position var(--dur-2) var(--ease-out);
 }
+.btn svg { transition: transform var(--dur-2) var(--ease-out); }
+.btn:hover svg { transform: translateX(4px); }
+
 .btn-primary {
-  color: #fff;
-  background: var(--grad);
-  box-shadow: var(--glow);
+  color: var(--bg);
+  background-image: var(--grad);
+  background-size: 150% 100%;
+  background-position: 0% 50%;
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 36px rgba(79,142,247,0.5), 0 6px 18px rgba(123,79,237,0.4); }
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:hover { background-position: 28% 50%; }
 
 .btn-ghost {
-  color: #fff;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border-2);
+  color: var(--text);
+  border-color: var(--line-2);
 }
-.btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.22); }
+.btn-ghost:hover { border-color: var(--text-dim); background-color: rgba(232, 236, 244, 0.04); }
 
-.btn-lg { padding: 14px 22px; font-size: 15px; }
+.btn-lg { padding: 16px 24px; font-size: 15px; }
 
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
 .nav-toggle {
   display: none;
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  border: 1px solid var(--border-2);
-  background: var(--surface);
+  width: 44px; height: 44px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-2);
   align-items: center; justify-content: center;
 }
-.nav-toggle span {
-  display: block; width: 16px; height: 2px;
-  background: #fff; position: relative;
-}
+.nav-toggle span { display: block; width: 18px; height: 1.5px; background: var(--text); position: relative; }
 .nav-toggle span::before, .nav-toggle span::after {
-  content: ""; position: absolute; left: 0; width: 16px; height: 2px; background: #fff;
+  content: ""; position: absolute; left: 0; width: 18px; height: 1.5px; background: var(--text);
 }
-.nav-toggle span::before { top: -5px; } .nav-toggle span::after { top: 5px; }
+.nav-toggle span::before { top: -6px; }
+.nav-toggle span::after { top: 6px; }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  z-index: 99;
+  padding: 8px var(--gutter) 24px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a:not(.btn) {
+  display: block;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+}
+.mobile-menu .btn { width: 100%; margin-top: 20px; }
+
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  .nav .btn-primary { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .brand-logo img { height: 26px; }
+}
 
 /* =========================================================
    FOOTER
    ========================================================= */
 footer {
-  border-top: 1px solid var(--border);
-  padding: 56px 0 32px;
   position: relative;
   z-index: 2;
+  border-top: 1px solid var(--line);
+  padding: 64px 0 32px;
+  background: var(--bg);
 }
 .footer-top {
   display: flex;
@@ -277,57 +308,48 @@ footer {
   align-items: flex-start;
   gap: 40px;
   flex-wrap: wrap;
-  margin-bottom: 36px;
+  margin-bottom: 56px;
 }
 .footer-brand p {
-  margin-top: 12px;
+  margin-top: 16px;
   color: var(--text-dim);
   font-size: 14px;
-  max-width: 320px;
+  max-width: 340px;
 }
-.footer-links {
-  display: flex;
-  gap: 28px;
-  flex-wrap: wrap;
-}
-.footer-links a {
+.footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+.footer-links a, .footer-bottom a {
   color: var(--text-dim);
   font-size: 14px;
-  transition: color .2s;
+  transition: color var(--dur-1) ease;
 }
-.footer-links a:hover { color: #fff; }
-
+.footer-links a:hover, .footer-bottom a:hover { color: var(--text); }
 .footer-bottom {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  gap: 12px 24px;
   padding-top: 24px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--line);
   font-size: 13px;
   color: var(--text-mute);
   flex-wrap: wrap;
 }
+.footer-bottom a { font-size: 13px; }
+@media (max-width: 720px) {
+  .footer-top { flex-direction: column; gap: 28px; }
+  .footer-bottom { flex-direction: column; }
+}
 
 /* =========================================================
-   REVEAL ON SCROLL
+   REVEAL ON ENTER
+   The hidden start state only exists once JS has flagged itself: without JS,
+   or if the script fails, everything stays readable.
    ========================================================= */
-/* Hidden start state only exists once JS has flagged itself: without JS, or
-   if the script fails, everything stays readable. */
 .js .reveal {
   opacity: 0;
   transform: translateY(var(--shift-2));
   transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
 }
 .js .reveal.in { opacity: 1; transform: none; }
-
-/* =========================================================
-   FOCUS
-   ========================================================= */
-:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
 
 /* =========================================================
    REDUCED MOTION — same content, no travel, no smooth scroll
@@ -339,8 +361,10 @@ footer {
   }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
 }
 
@@ -350,27 +374,3 @@ footer {
 html.lenis, html.lenis body { height: auto; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
 .lenis [data-lenis-prevent] { overscroll-behavior: contain; }
-
-/* mobile menu */
-.mobile-menu {
-  display: none;
-  position: fixed;
-  top: 70px; left: 16px; right: 16px;
-  z-index: 99;
-  padding: 12px;
-  border-radius: var(--r-lg);
-  background: rgba(13, 22, 41, 0.95);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-2);
-}
-.mobile-menu.open { display: block; }
-.mobile-menu a {
-  display: block;
-  padding: 12px 14px;
-  border-radius: var(--r-md);
-  color: var(--text);
-  font-size: 15px;
-  font-weight: 500;
-}
-.mobile-menu a:hover { background: var(--surface); }
-.mobile-menu .btn { width: 100%; justify-content: center; margin-top: 8px; }

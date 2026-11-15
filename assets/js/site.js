@@ -18,9 +18,13 @@
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('mobile-menu');
   if (!toggle || !menu) return;
-  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+  const setOpen = (open) => {
+    menu.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+  toggle.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
   menu.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => menu.classList.remove('open'))
+    a.addEventListener('click', () => setOpen(false))
   );
 })();
 
