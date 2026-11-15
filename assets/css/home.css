@@ -182,7 +182,7 @@
 .steps { list-style: none; margin: 0; padding: 0; }
 .step {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) 120px;
+  grid-template-columns: 56px minmax(0, 1fr) 150px;
   column-gap: 24px;
   padding: clamp(32px, 5vw, 60px) 0;
   border-top: 1px solid var(--line-2);
@@ -198,8 +198,8 @@
   grid-row: 1 / span 3;
   align-self: center;
   order: 1;
-  width: 120px;
-  height: 72px;
+  width: 150px;
+  height: 90px;
 }
 .fig-off { fill: var(--text-mute); opacity: 0.55; }
 .fig-on { fill: var(--cyan); }
@@ -209,6 +209,8 @@
 .fig-box { stroke: var(--text-mute); stroke-width: 1.5; fill: none; opacity: 0.7; }
 .fig-box-on { stroke: var(--cyan); opacity: 1; }
 .fig-arrow { fill: var(--text-mute); opacity: 0.7; }
+.fig-solid { fill: var(--bg); }
+.fig-zone { fill: var(--cyan); opacity: 0.14; }
 .fig-check { stroke: var(--cyan); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .step-badge {
   grid-column: 2;
@@ -494,7 +496,7 @@
   .process-grid { grid-template-columns: 1fr; }
   .process-head { position: static; margin-bottom: 40px; }
   .step { grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }
-  .step-fig { grid-column: 2; grid-row: auto; justify-self: start; width: 100px; height: 60px; margin-top: 24px; }
+  .step-fig { grid-column: 2; grid-row: auto; justify-self: start; width: 140px; height: 84px; margin-top: 24px; }
   .contact-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
