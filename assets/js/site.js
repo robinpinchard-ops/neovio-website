@@ -60,7 +60,7 @@
   const submitBtn = form && form.querySelector('button[type=submit]');
   if (!form) return;
 
-  const SUBMIT_LABEL = 'Envoyer ma demande d\'audit <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const SUBMIT_LABEL = 'Envoyer ma demande <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
