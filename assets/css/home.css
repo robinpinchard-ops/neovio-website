@@ -1,0 +1,522 @@
+/* =========================================================
+   Neovio — home page
+   ========================================================= */
+
+/* =========================================================
+   HERO
+   Static by default. With `.motion` on a wide screen it becomes a tall track
+   whose content stays pinned while the thread untangles (assets/js/motion.js).
+   ========================================================= */
+.hero { position: relative; z-index: 1; }
+.hero-pin {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  padding-top: var(--nav-h);
+  overflow: clip;
+}
+@media (min-width: 861px) and (min-height: 620px) {
+  .motion .hero { height: 170svh; }
+  .motion .hero-pin { position: sticky; top: 0; height: 100svh; }
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: none;
+}
+.motion .hero-canvas { display: block; }
+
+.hero-content {
+  position: relative;
+  align-self: center;
+  padding-block: clamp(32px, 6vh, 72px);
+}
+.hero-kicker { margin-bottom: clamp(20px, 3vh, 36px); }
+
+.hero h1 {
+  font-size: clamp(40px, 6.4vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+}
+/* Each sentence rises from behind its own baseline. The padding keeps
+   descenders inside the clip; the negative margin gives the space back. */
+.h1-line {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.h1-line > span { display: block; }
+
+.hero .lead {
+  margin-top: clamp(24px, 4vh, 40px);
+  max-width: 46ch;
+  font-size: clamp(16px, 1.35vw, 19px);
+  color: var(--text-dim);
+}
+.hero-ctas {
+  margin-top: clamp(28px, 4.5vh, 44px);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-foot { position: relative; }
+.hero-trust {
+  list-style: none;
+  margin: 0;
+  padding: 28px 0 34px;
+  /* Three commitments, one per column, each marked by a node of the thread. */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px clamp(24px, 4vw, 56px);
+  /* The thread's resting place. Under `.motion` the canvas draws it instead. */
+  border-top: 1px solid var(--cyan);
+  font-family: var(--font-display);
+  font-size: clamp(16px, 1.45vw, 21px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.hero-trust li {
+  position: relative;
+  padding-left: 22px;
+}
+.hero-trust li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+.motion .hero-trust { border-top-color: transparent; }
+
+/* Load sequence — CSS only, so it never waits for a script. The start state
+   keeps a sliver of opacity: the H1 is the LCP element and must count as
+   painted on the first frame. */
+@keyframes rise {
+  from { opacity: 0.01; transform: translateY(60%); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(var(--shift-2)); }
+  to   { opacity: 1; transform: none; }
+}
+.js .h1-line > span {
+  animation: rise var(--dur-3) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger) * 2);
+}
+.js .intro {
+  animation: fade-up var(--dur-3) var(--ease-out) both;
+  animation-delay: calc(120ms + var(--i, 0) * var(--stagger));
+}
+
+@media (max-width: 860px) {
+  .hero-content { align-self: start; padding-top: clamp(40px, 9vh, 88px); padding-bottom: 8px; }
+  /* Reserved band for the tangle (canvas), so it never covers text or buttons. */
+  .motion .hero-knot { height: clamp(84px, 12svh, 128px); }
+  .hero-ctas .btn { flex: 1 1 100%; }
+  .hero-trust { grid-template-columns: 1fr; gap: 8px; padding: 18px 0 22px; font-size: 15px; }
+}
+
+/* =========================================================
+   THREAD
+   One line down the left margin, from the hero to the last section. The
+   track is always there; the cyan fill follows the reading position.
+   ========================================================= */
+.flow { position: relative; }
+.thread-rail {
+  position: absolute;
+  inset: 0 0 var(--section-pad);
+  margin-inline: auto;
+  pointer-events: none;
+}
+.thread {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: calc(-1 * var(--thread-off));
+  width: 1px;
+  background: var(--line);
+}
+.thread::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  transform-origin: top;
+  transform: scaleY(var(--p));
+}
+.thread::after {
+  content: "";
+  position: absolute;
+  left: -3px; bottom: -3px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: calc((var(--p) - 0.985) * 80);
+}
+
+/* =========================================================
+   SECTION SHELL
+   ========================================================= */
+.section, .results { position: relative; z-index: 1; }
+.section { padding: var(--section-pad) 0; }
+
+.section-head { max-width: 780px; margin-bottom: clamp(48px, 7vw, 96px); }
+.section-head h2 {
+  margin-top: 18px;
+  font-size: clamp(34px, 5vw, 68px);
+}
+.section-sub {
+  margin-top: 20px;
+  max-width: 52ch;
+  font-size: clamp(16px, 1.3vw, 19px);
+  color: var(--text-dim);
+}
+
+/* =========================================================
+   METHOD — heading stays, the four steps scroll past it
+   ========================================================= */
+.process-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+.process-head {
+  position: sticky;
+  top: calc(var(--nav-h) + 48px);
+  margin-bottom: 0;
+}
+.steps { list-style: none; margin: 0; padding: 0; }
+.step {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 150px;
+  column-gap: 24px;
+  padding: clamp(32px, 5vw, 60px) 0;
+  border-top: 1px solid var(--line-2);
+}
+.step:last-child { border-bottom: 1px solid var(--line-2); }
+.step-num { grid-row: 1 / span 3; padding-top: 0.75em; font-size: 13px; }
+.step h3 { grid-column: 2; font-size: clamp(24px, 2.4vw, 34px); }
+.step p { grid-column: 2; margin-top: 14px; max-width: 52ch; color: var(--text-dim); }
+/* Step figures. Read top to bottom they are the diagram of the method:
+   everything observed, the leads among it, the leads ranked, one in service. */
+.step-fig {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  align-self: center;
+  order: 1;
+  width: 150px;
+  height: 90px;
+}
+.fig-off { fill: var(--text-mute); opacity: 0.55; }
+.fig-on { fill: var(--cyan); }
+.fig-line { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+.fig-ring { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+.fig-axis { stroke: var(--text-mute); stroke-width: 1.5; fill: none; opacity: 0.7; }
+.fig-box { stroke: var(--text-mute); stroke-width: 1.5; fill: none; opacity: 0.7; }
+.fig-box-on { stroke: var(--cyan); opacity: 1; }
+.fig-arrow { fill: var(--text-mute); opacity: 0.7; }
+.fig-solid { fill: var(--bg); }
+.fig-zone { fill: var(--cyan); opacity: 0.14; }
+.fig-check { stroke: var(--cyan); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.step-badge {
+  grid-column: 2;
+  justify-self: start;
+  margin-top: 22px;
+  padding: 6px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+}
+
+/* =========================================================
+   RESULTS — the page's peak
+   Default (mobile, no JS, reduced motion): four commitments in a plain grid.
+   With `.motion` on a wide screen: the section is pinned and the thread turns
+   into a time axis; each commitment rises as the axis reaches it.
+   ========================================================= */
+.results { padding: var(--section-pad) 0; }
+.timeline {
+  --num-size: clamp(36px, 10vw, 52px);
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.milestone {
+  padding: 24px 0 36px;
+  border-top: 1px solid var(--line-2);
+}
+.milestone-num {
+  overflow: clip;
+  font-family: var(--font-display);
+  font-size: var(--num-size);
+  font-weight: 700;
+  /* 1.2: the clip must leave room for descenders (« Un plan », « Une analyse ») */
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+.milestone-num > span { display: block; }
+.milestone-label { margin-top: 10px; max-width: 34ch; color: var(--text-dim); font-size: 15px; line-height: 1.5; }
+
+@media (min-width: 560px) {
+  .timeline { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+}
+
+@media (min-width: 1000px) and (min-height: 640px) {
+  .motion .results { height: 300svh; padding: 0; }
+  .motion .results-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-top: var(--nav-h);
+  }
+  .motion .results .section-head { margin-bottom: clamp(40px, 9vh, 104px); }
+  /* Under .motion the scene is driven by --p, not by the enter reveal. */
+  .motion .results .reveal { opacity: 1; transform: none; transition: none; }
+
+  .motion .timeline {
+    --num-size: clamp(38px, 4.1vw, 56px);
+    --axis-y: calc(var(--num-size) * 1.2 + 28px);
+    position: relative;
+    /* widths follow the words; each --x in the markup is the column's start */
+    grid-template-columns: 1fr 1.2fr 0.9fr 1.25fr;
+    column-gap: 0;
+  }
+  /* Axis: a track, and the signature gradient filling it — the only gradient on this screen. */
+  .motion .timeline::before,
+  .motion .timeline::after {
+    content: "";
+    position: absolute;
+    left: calc(-1 * var(--thread-off));
+    right: 0;
+    top: var(--axis-y);
+    height: 1px;
+    background: var(--line-2);
+  }
+  .motion .timeline::after {
+    height: 2px;
+    margin-top: -0.5px;
+    background: var(--grad);
+    transform-origin: left;
+    transform: scaleX(clamp(0, calc(var(--p) * 1.15), 1));
+  }
+  .motion .milestone {
+    /* --x: where this commitment sits on the axis (0..1). --k: its own 0..1. */
+    --k: clamp(0, calc((var(--p) * 1.15 - var(--x)) / 0.09), 1);
+    position: relative;
+    padding: 0 24px 0 0;
+    border-top: 0;
+  }
+  .motion .milestone::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: calc(var(--axis-y) - 4px);
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--text);
+    transform: scale(var(--k));
+    z-index: 1;
+  }
+  .motion .milestone-num { height: calc(var(--num-size) * 1.2); }
+  .motion .milestone-num > span { transform: translateY(calc((1 - var(--k)) * 110%)); }
+  .motion .milestone-label {
+    margin-top: 56px;
+    opacity: var(--k);
+    transform: translateY(calc((1 - var(--k)) * var(--shift-1)));
+  }
+}
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+.form-card {
+  padding: clamp(24px, 3vw, 40px);
+  border-radius: var(--r-lg);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+}
+.field label .opt { color: var(--text-mute); font-weight: 400; }
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: var(--r-md);
+  background: rgba(232, 236, 244, 0.03);
+  border: 1px solid var(--line-2);
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color var(--dur-1) ease, background-color var(--dur-1) ease;
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-mute); }
+.input:focus, .select:focus, .textarea:focus {
+  outline: 2px solid var(--cyan);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.textarea { min-height: 120px; resize: vertical; }
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%2398A2B8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.select option { background: var(--bg-3); color: var(--text); }
+
+.btn-submit { width: 100%; margin-top: 6px; padding: 16px 22px; font-size: 15px; }
+.privacy-note {
+  margin-top: 16px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px;
+  color: var(--text-mute);
+}
+.privacy-note svg { flex-shrink: 0; }
+
+.form-success {
+  display: none;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(0, 229, 160, 0.35);
+  color: var(--mint);
+  font-size: 14px;
+  text-align: center;
+}
+.form-success.show { display: block; }
+.form-error {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(255, 93, 108, 0.45);
+  color: #FF8B96; /* --coral lightened for AA on --bg-2 */
+  font-size: 14px;
+  text-align: center;
+}
+
+/* booking / message switch — `display` beats the [hidden] attribute the JS toggles */
+.contact-panels { display: flex; flex-direction: column; gap: 16px; }
+.contact-panels [hidden] { display: none; }
+.contact-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+}
+.contact-switch button {
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  transition: background-color var(--dur-1) ease, color var(--dur-1) ease;
+}
+.contact-switch button:hover { color: var(--text); }
+.contact-switch button[aria-selected="true"] { color: var(--text); background: rgba(232, 236, 244, 0.08); }
+
+.booking-panel h3 { font-size: clamp(22px, 2vw, 28px); margin-bottom: 12px; }
+.booking-panel p { margin-bottom: 24px; color: var(--text-dim); }
+
+/* aside: plain ruled blocks, no cards */
+.contact-card { padding: 22px 0 26px; border-top: 1px solid var(--line-2); }
+.contact-card h4 {
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.contact-mail {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: color var(--dur-1) ease;
+}
+.contact-mail:hover { color: var(--cyan); }
+.contact-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.contact-stat-num {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.contact-stat-label { margin-top: 8px; font-size: 13px; color: var(--text-dim); }
+.trust-badges { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+.trust-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-dim); }
+.trust-badge svg { color: var(--mint); flex-shrink: 0; }
+
+/* =========================================================
+   MOBILE CTA BAR — appears once the hero is gone, leaves at the contact section
+   ========================================================= */
+.cta-bar { display: none; }
+@media (max-width: 860px) {
+  .cta-bar {
+    display: block;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 90;
+    padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+    background: rgba(5, 10, 20, 0.97);
+    border-top: 1px solid var(--line);
+    transform: translateY(110%);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .cta-bar.show { transform: none; }
+  /* keep the last footer line clear of the bar */
+  footer { padding-bottom: 104px; }
+  .cta-bar .btn { width: 100%; }
+}
+
+/* =========================================================
+   MOBILE COMPOSITION
+   ========================================================= */
+@media (max-width: 860px) {
+  .process-grid { grid-template-columns: 1fr; }
+  .process-head { position: static; margin-bottom: 40px; }
+  .step { grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }
+  .step-fig { grid-column: 2; grid-row: auto; justify-self: start; width: 140px; height: 84px; margin-top: 24px; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .field-row { grid-template-columns: 1fr; }
+  .trust-badges { grid-template-columns: 1fr; }
+}

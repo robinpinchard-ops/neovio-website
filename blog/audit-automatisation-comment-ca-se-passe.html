@@ -1,14 +1,15 @@
 <!doctype html>
-<html lang="fr" data-mood="electric">
+<html lang="fr">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
 <title>Audit d'automatisation : à quoi ça sert et comment ça se passe · Neovio</title>
-<meta name="description" content="Une heure chez vous, un compte-rendu, une seule piste. Ce qu'on regarde pendant un audit d'automatisation gratuit, et ce que vous en repartez avec." />
+<meta name="description" content="Un premier échange, une visite chez vous, une seule piste. Ce qu'on regarde pendant un audit d'automatisation, et ce que vous en repartez avec." />
 <link rel="canonical" href="https://www.neovio.be/blog/audit-automatisation-comment-ca-se-passe.html" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Audit d'automatisation : à quoi ça sert et comment ça se passe" />
-<meta property="og:description" content="Une heure chez vous, un compte-rendu, une seule piste. Ce qu'on regarde pendant un audit d'automatisation gratuit, et ce que vous en repartez avec." />
+<meta property="og:description" content="Un premier échange, une visite chez vous, une seule piste. Ce qu'on regarde pendant un audit d'automatisation, et ce que vous en repartez avec." />
 <meta property="og:url" content="https://www.neovio.be/blog/audit-automatisation-comment-ca-se-passe.html" />
 <script type="application/ld+json">
 {
@@ -22,265 +23,26 @@
   "inLanguage": "fr-BE"
 }
 </script>
-<style>
-/* Polices auto-hebergees — aucune requete vers un tiers */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../assets/fonts/inter-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../assets/fonts/inter-500-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../assets/fonts/inter-600-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../assets/fonts/inter-700-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../assets/fonts/jetbrains-mono-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../assets/fonts/jetbrains-mono-500-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../assets/fonts/jetbrains-mono-700-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../assets/fonts/space-grotesk-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../assets/fonts/space-grotesk-500-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../assets/fonts/space-grotesk-600-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../assets/fonts/space-grotesk-700-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-:root {
-  --bg:        #050A14;
-  --bg-2:      #0A1124;
-  --surface:   rgba(255,255,255,0.03);
-  --surface-2: rgba(255,255,255,0.05);
-  --border:    rgba(255,255,255,0.08);
-  --border-2:  rgba(255,255,255,0.14);
-  --text:      #E8ECF4;
-  --text-dim:  #98A2B8;
-  --text-mute: #6B7693;
-  --blue:      #4F8EF7;
-  --purple:    #7B4FED;
-  --cyan:      #00D4FF;
-  --green:     #00E5A0;
-  --grad:      linear-gradient(135deg, #4F8EF7 0%, #7B4FED 100%);
-  --grad-soft: linear-gradient(135deg, rgba(79,142,247,0.18) 0%, rgba(123,79,237,0.18) 100%);
-  --glow:      0 8px 30px rgba(79,142,247,0.35), 0 4px 14px rgba(123,79,237,0.30);
-  --glow-soft: 0 4px 18px rgba(79,142,247,0.18);
-  --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-pill: 999px;
-  --container: 1200px;
-}
-
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; background: var(--bg); }
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-  color: var(--text);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-h1, h2, h3 {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin: 0;
-}
-p { margin: 0; text-wrap: pretty; }
-a { color: var(--blue); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-.container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
-
-/* NAV */
-.nav {
-  position: sticky; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 14px 0;
-  background: rgba(5,10,20,0.82);
-  backdrop-filter: saturate(140%) blur(14px);
-  -webkit-backdrop-filter: saturate(140%) blur(14px);
-  border-bottom: 1px solid var(--border);
-}
-.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.brand-logo { display: inline-flex; align-items: center; }
-.brand-logo img { display: block; height: 34px; width: auto; filter: drop-shadow(0 4px 14px rgba(43,180,230,0.20)); }
-.nav-links { display: flex; align-items: center; gap: 8px; }
-.nav-links a {
-  padding: 8px 14px; border-radius: var(--r-pill);
-  color: var(--text-dim); font-size: 14px; font-weight: 500;
-  transition: color .2s, background .2s; text-decoration: none;
-}
-.nav-links a:hover { color: #fff; background: var(--surface); }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 11px 18px; border-radius: var(--r-pill);
-  font-size: 14px; font-weight: 600; font-family: inherit;
-  transition: transform .15s ease, box-shadow .25s ease;
-  white-space: nowrap; cursor: pointer; text-decoration: none;
-}
-.btn-primary { color: #fff; background: var(--grad); box-shadow: var(--glow); }
-.btn-primary:hover { transform: translateY(-1px); text-decoration: none; }
-
-/* ARTICLE */
-.post {
-  max-width: 760px;
-  margin: 72px auto;
-  padding: 0 24px 40px;
-}
-.post .eyebrow {
-  display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--cyan); margin-bottom: 14px;
-}
-.post .eyebrow a { color: var(--cyan); }
-.post h1 { font-size: 36px; margin-bottom: 14px; }
-.post .post-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; color: var(--text-mute); margin-bottom: 48px;
-}
-.post-content h2 {
-  font-size: 23px; color: #fff;
-  margin: 44px 0 14px; padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.post-content h3 { font-size: 18px; color: #fff; margin: 28px 0 10px; }
-.post-content p, .post-content li {
-  color: var(--text-dim); font-size: 16px; line-height: 1.75;
-}
-.post-content p + p { margin-top: 14px; }
-.post-content ul, .post-content ol { margin: 14px 0 0 0; padding-left: 22px; }
-.post-content li { margin-bottom: 8px; }
-.post-content strong { color: var(--text); }
-
-/* CTA */
-.cta-box {
-  margin-top: 56px;
-  padding: 32px;
-  background: var(--grad-soft);
-  border: 1px solid var(--border-2);
-  border-radius: var(--r-lg);
-}
-.cta-box h2 { font-size: 21px; color: #fff; margin-bottom: 10px; }
-.cta-box p { color: var(--text-dim); font-size: 15px; margin-bottom: 20px; }
-.cta-box .btn-primary { display: inline-flex; }
-
-/* FOOTER */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 40px 0 28px;
-  position: relative; z-index: 2;
-}
-.footer-top {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 40px; flex-wrap: wrap; margin-bottom: 28px;
-}
-.footer-brand p { margin-top: 10px; color: var(--text-dim); font-size: 14px; max-width: 300px; }
-.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
-.footer-links a { color: var(--text-dim); font-size: 14px; transition: color .2s; text-decoration: none; }
-.footer-links a:hover { color: #fff; }
-.footer-bottom {
-  display: flex; justify-content: space-between; gap: 12px;
-  padding-top: 20px; border-top: 1px solid var(--border);
-  font-size: 13px; color: var(--text-mute); flex-wrap: wrap; align-items: center;
-}
-.footer-bottom a { color: var(--text-mute); text-decoration: none; }
-.footer-bottom a:hover { color: #fff; }
-.footer-legal { display: flex; gap: 16px; flex-wrap: wrap; }
-.footer-brand .brand-logo img { height: 40px; }
-
-@media (max-width: 720px) {
-  .nav-links { display: none; }
-  .nav .btn-primary { display: none; }
-  .post h1 { font-size: 28px; }
-  .footer-top { flex-direction: column; gap: 20px; }
-  .footer-bottom { flex-direction: column; gap: 8px; }
-}
-</style>
+<link rel="preload" href="../assets/fonts/space-grotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="../assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="../assets/css/site.css" />
+<link rel="stylesheet" href="../assets/css/prose.css" />
 </head>
 <body>
 
 <nav class="nav">
   <div class="container nav-inner">
     <a href="../index.html" class="brand-logo" aria-label="Neovio - Accueil">
-      <img src="../assets/neovio-logo-white.png?v=8" alt="Neovio" />
+      <img src="../assets/neovio-logo-white.svg" width="1851" height="498" alt="Neovio" />
     </a>
     <div class="nav-links">
-      <a href="../index.html#services">Nos services</a>
-      <a href="../index.html#processus">Notre processus</a>
+      <a href="../index.html#processus">Notre méthode</a>
       <a href="../index.html#resultats">Résultats</a>
       <a href="index.html">Blog</a>
       <a href="../index.html#contact">Contact</a>
     </div>
     <a href="../index.html#contact" class="btn btn-primary">
-      Réserver mon audit gratuit
+      Réserver mon premier échange
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
@@ -289,12 +51,12 @@ footer {
 <main>
   <article class="post">
     <span class="eyebrow"><a href="index.html">← Blog Neovio</a></span>
-    <h1>Audit d'automatisation : à quoi ça sert et comment ça se passe</h1>
+    <h1 style="view-transition-name: post-audit-automatisation-comment-ca-se-passe">Audit d'automatisation : à quoi ça sert et comment ça se passe</h1>
     <div class="post-meta">4 août 2026 · 4 min de lecture · L'équipe Neovio</div>
 
     <div class="post-content">
       <p>
-        « Audit gratuit ». La formule est partout, et elle sent le rendez-vous commercial déguisé.
+        « Audit ». Le mot est partout, et il sent souvent le rendez-vous commercial déguisé.
         On comprend la méfiance : bien souvent, c'en est un.
       </p>
       <p>
@@ -305,7 +67,7 @@ footer {
       <h2>Ce n'est pas une présentation</h2>
       <p>
         On ne vient pas avec des diapositives ni un catalogue d'outils. On vient s'asseoir dans votre
-        commerce ou votre bureau, une heure, et on parle de votre semaine : ce que vous refaites à
+        commerce ou votre bureau, et on parle de votre semaine : ce que vous refaites à
         l'identique, ce qui vous retient le soir, ce qui casserait si les commandes doublaient demain.
       </p>
       <p>
@@ -315,22 +77,22 @@ footer {
       <p>
         <strong>Pourquoi sur place et pas en visio ?</strong> Parce que le carnet de rendez-vous posé
         sur le comptoir, la pile de factures dans un coin, le classeur qu'on ouvre pour nous montrer
-        « tenez, regardez comment je fais » — tout ça se voit et ne se raconte pas. Une heure dans vos
+        « tenez, regardez comment je fais » — tout ça se voit et ne se raconte pas. Un moment dans vos
         murs vaut trois appels.
       </p>
 
       <h2>Les trois temps</h2>
       <p>
-        <strong>1. Un premier échange, court.</strong> En visio ou par téléphone. Avant de bloquer une
-        heure chez vous, on vérifie ensemble qu'il y a matière. Vous racontez votre activité et ce qui
+        <strong>1. Un premier échange, court et gratuit.</strong> En visio ou par téléphone. Avant de
+        venir chez vous, on vérifie ensemble qu'il y a matière. Vous racontez votre activité et ce qui
         vous prend du temps,
         on vous dit franchement si on voit quelque chose d'exploitable. <strong>Si la réponse est non,
-        on vous le dit</strong> — ça arrive, et ça vous économise une heure. Si oui, on fixe la date de
+        on vous le dit</strong> — ça arrive, et ça vous évite de perdre du temps. Si oui, on fixe la date de
         la visite pendant l'appel.
       </p>
       <p>
-        <strong>2. Une heure sur place.</strong> Le cœur du travail. Avec votre accord, on enregistre
-        la conversation : uniquement pour pouvoir vous faire un compte-rendu fidèle sans passer l'heure
+        <strong>2. La visite sur place.</strong> Le cœur du travail. Avec votre accord, on enregistre
+        la conversation : uniquement pour pouvoir vous faire un compte-rendu fidèle sans passer la visite
         le nez dans un carnet. L'enregistrement ne sort pas de chez nous.
       </p>
       <p>
@@ -339,7 +101,7 @@ footer {
         qu'on ne peut pas vous expliquer ne sert à rien.
       </p>
 
-      <h2>Ce qu'on cherche pendant cette heure</h2>
+      <h2>Ce qu'on cherche pendant la visite</h2>
       <p>Deux choses : du temps et de l'argent.</p>
       <p>
         <strong>Du temps.</strong> Une tâche nommée, sa fréquence, ce qu'elle vous coûte à chaque fois.
@@ -377,25 +139,21 @@ footer {
         proximité peut automatiser dès demain</a>.
       </p>
 
-      <h2>Pourquoi c'est gratuit — et où s'arrête le gratuit</h2>
+      <h2>Ce qui est gratuit, et ce qui ne l'est pas</h2>
       <p>
-        Soyons directs. <strong>L'audit est gratuit parce que c'est notre façon de nous faire
-        connaître</strong>, en région liégeoise, auprès de gens qui ne nous connaissent pas encore. En
-        échange, si le résultat vous convient, on vous demandera de pouvoir en parler : votre nom, ce
-        qu'on a fait ensemble. Si ça ne vous convainc pas, on s'arrête là et on ne demande rien.
+        Soyons directs. <strong>Le premier échange est gratuit</strong> : il sert à savoir s'il y a
+        matière, pour vous comme pour nous.
       </p>
       <p>
-        <strong>Ce qui vient après n'est pas gratuit.</strong> Si vous décidez de faire construire
-        l'automatisation, elle fait l'objet d'un devis, discuté avant qu'on commence, avec ce qui est
-        compris et ce qui ne l'est pas. Le gratuit s'arrête au compte-rendu — c'est plus honnête de le
-        dire tout de suite.
+        <strong>L'analyse, elle, est un vrai travail.</strong> La visite, le compte-rendu et la piste
+        chiffrée font l'objet d'un devis, discuté avec vous avant qu'on commence, avec ce qui est
+        compris et ce qui ne l'est pas. C'est plus honnête de le dire tout de suite.
       </p>
 
       <h2>En résumé</h2>
       <p>
-        Un premier échange court pour vérifier qu'il y a matière. Une heure chez vous. Un
-        compte-rendu présenté de vive voix, avec une seule piste chiffrée. Aucun engagement à aucune
-        des trois étapes.
+        Un premier échange court, gratuit, pour vérifier qu'il y a matière. Une visite chez vous.
+        Un compte-rendu présenté de vive voix, avec une seule piste chiffrée.
       </p>
     </div>
 
@@ -403,7 +161,7 @@ footer {
       <h2>Savoir si ça vaut le coup, en un appel</h2>
       <p>Neovio accompagne les indépendants, commerces et PME de la région liégeoise. Commencez par un premier échange, en visio ou par téléphone : vous nous dites ce qui vous prend du temps, on vous dit franchement s'il y a matière. Gratuit, sans engagement.</p>
       <a href="../index.html#contact" class="btn btn-primary">
-        Réserver mon audit gratuit
+        Réserver mon premier échange
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -415,13 +173,12 @@ footer {
     <div class="footer-top">
       <div class="footer-brand">
         <a href="../index.html" class="brand-logo">
-          <img src="../assets/neovio-logo-white.png?v=8" alt="Neovio" />
+          <img src="../assets/neovio-logo-white.svg" width="1851" height="498" alt="Neovio" />
         </a>
-        <p>Automatisation IA · Liège, Belgique. Nous aidons les indépendants et PME à libérer leur temps grâce à l'IA.</p>
+        <p>Automatisation IA · Liège, Belgique. Nous aidons les indépendants, commerces et PME de la région liégeoise à libérer leur temps grâce à l'IA.</p>
       </div>
       <div class="footer-links">
-        <a href="../index.html#services">Nos services</a>
-        <a href="../index.html#processus">Notre processus</a>
+        <a href="../index.html#processus">Notre méthode</a>
         <a href="../index.html#resultats">Résultats</a>
         <a href="index.html">Blog</a>
         <a href="../index.html#contact">Contact</a>

@@ -1,3 +1,26 @@
 [build]
   publish = "."
   command = ""
+
+# Cache. Nothing is content-hashed (no build step), so HTML, CSS and JS are
+# revalidated on every visit — a 304 is cheap. Only files whose name carries
+# their version, or that never change, are cached for a year.
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

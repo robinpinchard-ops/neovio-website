@@ -1,0 +1,394 @@
+/* =========================================================
+   Neovio — shared styles (every page)
+   Fonts, tokens, base, navigation, buttons, footer, motion rules.
+   ========================================================= */
+
+/* Self-hosted variable fonts: one file per family, no third-party request */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/inter-var-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/space-grotesk-var-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-var-latin.woff2') format('woff2');
+}
+
+/* Scroll progress of a scene, 0 → 1, written by assets/js/motion.js.
+   The initial value is the END state: with no JS, or under reduced motion,
+   every scrubbed scene simply shows its finished composition. */
+@property --p {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+/* =========================================================
+   TOKENS
+   ========================================================= */
+:root {
+  /* Colour — BRAND.md, dark theme */
+  --bg:        #050A14;
+  --bg-2:      #0A1124;
+  --bg-3:      #0D1629;
+  --line:      rgba(232, 236, 244, 0.10);
+  --line-2:    rgba(232, 236, 244, 0.20);
+  --text:      #E8ECF4;
+  --text-dim:  #98A2B8;
+  --text-mute: #7D88A3;   /* #6B7693 lightened: AA on --bg for small text */
+
+  --blue:    #4F8EF7;
+  --cyan:    #00D4FF;
+  --violet:  #7B4FED;
+  --mint:    #00E5A0;
+  --coral:   #FF5D6C;
+
+  /* Signature gradient: one element per screen, never more. Stretched so the
+     violet end falls outside the box — dark label text stays AA on all of it. */
+  --grad: linear-gradient(135deg, #4F8EF7 0%, #00D4FF 50%, #7B4FED 100%);
+
+  /* Type */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Layout */
+  --gutter: clamp(20px, 5vw, 72px);
+  --container: 1240px;
+  --thread-off: 28px;          /* distance between the thread and the content edge */
+  --nav-h: 72px;
+  --section-pad: clamp(88px, 12vw, 168px);
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+
+  /* Motion system: every animation on the site picks from these */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);    /* entrances */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);   /* moves, page transitions */
+  --dur-1: 150ms;   /* hover, focus */
+  --dur-2: 400ms;   /* small elements */
+  --dur-3: 800ms;   /* blocks */
+  --dur-4: 1200ms;  /* hero intro */
+  --shift-1: 8px;
+  --shift-2: 24px;
+  --shift-3: 64px;
+  --stagger: 60ms;
+}
+@media (max-width: 720px) {
+  :root { --thread-off: 10px; --nav-h: 60px; }
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+/* No scroll-behavior: smooth here: it fights Lenis. Anchors clear the fixed nav. */
+html { background: var(--bg); scroll-padding-top: calc(var(--nav-h) + 12px); }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  /* clip, not hidden: hidden makes body a scroll container and breaks position: sticky */
+  overflow-x: clip;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  margin: 0;
+  text-wrap: balance;
+}
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+img { max-width: 100%; display: block; }
+::selection { background: rgba(0, 212, 255, 0.28); color: #fff; }
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+/* Mono label: `// Nos services`, step numbers, tool names */
+.section-eyebrow,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 200;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  background: var(--text);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  /* Always opaque: reading pages have no script to flag the scrolled state. */
+  background: var(--bg);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-2) var(--ease-out);
+  view-transition-name: site-nav;
+}
+.nav.scrolled { border-bottom-color: var(--line); }
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.brand-logo { display: inline-flex; align-items: center; }
+.brand-logo img { height: 30px; width: auto; }
+.footer-brand .brand-logo img { height: 36px; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 36px);
+}
+.nav-links a {
+  position: relative;
+  padding: 8px 0;
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color var(--dur-1) ease;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 2px;
+  height: 1px;
+  background: var(--cyan);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color var(--dur-1) ease, background-color var(--dur-1) ease, background-position var(--dur-2) var(--ease-out);
+}
+.btn svg { transition: transform var(--dur-2) var(--ease-out); }
+.btn:hover svg { transform: translateX(4px); }
+
+.btn-primary {
+  color: var(--bg);
+  background-image: var(--grad);
+  background-size: 150% 100%;
+  background-position: 0% 50%;
+}
+.btn-primary:hover { background-position: 28% 50%; }
+/* The nav button is always on screen: flat, so the signature gradient stays
+   unique to the one call to action of the section being read. */
+.nav .btn-primary { background: var(--text); }
+.nav .btn-primary:hover { background: #fff; }
+
+.btn-ghost {
+  color: var(--text);
+  border-color: var(--line-2);
+}
+.btn-ghost:hover { border-color: var(--text-dim); background-color: rgba(232, 236, 244, 0.04); }
+
+.btn-lg { padding: 16px 24px; font-size: 15px; }
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+.nav-toggle {
+  display: none;
+  width: 44px; height: 44px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-2);
+  align-items: center; justify-content: center;
+}
+.nav-toggle span { display: block; width: 18px; height: 1.5px; background: var(--text); position: relative; }
+.nav-toggle span::before, .nav-toggle span::after {
+  content: ""; position: absolute; left: 0; width: 18px; height: 1.5px; background: var(--text);
+}
+.nav-toggle span::before { top: -6px; }
+.nav-toggle span::after { top: 6px; }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  z-index: 99;
+  padding: 8px var(--gutter) 24px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a:not(.btn) {
+  display: block;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+}
+.mobile-menu .btn { width: 100%; margin-top: 20px; }
+
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  /* Pages with a menu button fold the CTA into the menu; the others keep it. */
+  .nav-inner:has(.nav-toggle) > .btn-primary { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .brand-logo img { height: 26px; }
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+footer {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--line);
+  padding: 64px 0 32px;
+  background: var(--bg);
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+.footer-brand p {
+  margin-top: 16px;
+  color: var(--text-dim);
+  font-size: 14px;
+  max-width: 340px;
+}
+.footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+.footer-links a, .footer-bottom a {
+  color: var(--text-dim);
+  font-size: 14px;
+  transition: color var(--dur-1) ease;
+}
+.footer-links a:hover, .footer-bottom a:hover { color: var(--text); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--text-mute);
+  flex-wrap: wrap;
+}
+.footer-bottom a { font-size: 13px; }
+@media (max-width: 720px) {
+  .footer-top { flex-direction: column; gap: 28px; }
+  .footer-bottom { flex-direction: column; }
+}
+
+/* =========================================================
+   REVEAL ON ENTER
+   The hidden start state only exists once JS has flagged itself: without JS,
+   or if the script fails, everything stays readable.
+   ========================================================= */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(var(--shift-2));
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+}
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* =========================================================
+   REDUCED MOTION — same content, no travel, no smooth scroll
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0.01ms; --dur-2: 0.01ms; --dur-3: 0.01ms; --dur-4: 0.01ms;
+    --shift-1: 0px; --shift-2: 0px; --shift-3: 0px; --stagger: 0ms;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+/* =========================================================
+   LENIS (smooth scroll, fine pointers only) — from lenis.css 1.3.27
+   ========================================================= */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+
+/* =========================================================
+   PAGE TRANSITIONS — cross-document, progressive enhancement.
+   Both pages opt in through this file. The nav holds still; a blog title
+   morphs into its article heading (names set inline, unique per page).
+   ========================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-group(*) {
+    animation-duration: var(--dur-2);
+    animation-timing-function: var(--ease-in-out);
+  }
+}

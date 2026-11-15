@@ -2,3 +2,10 @@
 node_modules/
 .DS_Store
 Thumbs.db
+
+# Archive complete du site : ni revue ni maintenue, 27 Mo
+neovio-website.zip
+*.zip
+
+# Artefacts de capture Playwright
+.playwright-cli/
