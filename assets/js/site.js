@@ -40,7 +40,8 @@
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
-        e.target.style.transitionDelay = (i % 3) * 80 + 'ms';
+        // Blocks entering together cascade, in steps of the --stagger token.
+        e.target.style.transitionDelay = 'calc(var(--stagger) * ' + (i % 5) + ')';
         e.target.classList.add('in');
         io.unobserve(e.target);
       }
@@ -130,6 +131,24 @@
     if (btn) show(btn.dataset.panel);
   });
   show('booking');
+})();
+
+/* ============================================================
+   6b. Mobile CTA bar — shown between the hero and the contact section
+   ============================================================ */
+(function initCtaBar() {
+  const bar = document.getElementById('cta-bar');
+  const hero = document.getElementById('hero');
+  const contact = document.getElementById('contact');
+  if (!bar || !hero || !contact || !('IntersectionObserver' in window)) return;
+  bar.hidden = false;
+  const seen = new Map();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => seen.set(e.target, e.isIntersecting));
+    bar.classList.toggle('show', !seen.get(hero) && !seen.get(contact));
+  });
+  io.observe(hero);
+  io.observe(contact);
 })();
 
 /* ============================================================

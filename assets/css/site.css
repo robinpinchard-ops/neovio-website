@@ -239,6 +239,10 @@ img { max-width: 100%; display: block; }
   background-position: 0% 50%;
 }
 .btn-primary:hover { background-position: 28% 50%; }
+/* The nav button is always on screen: flat, so the signature gradient stays
+   unique to the one call to action of the section being read. */
+.nav .btn-primary { background: var(--text); }
+.nav .btn-primary:hover { background: #fff; }
 
 .btn-ghost {
   color: var(--text);
