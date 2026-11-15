@@ -440,6 +440,15 @@
   text-align: center;
 }
 .form-success.show { display: block; }
+.form-error {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(255, 93, 108, 0.45);
+  color: #FF8B96; /* --coral lightened for AA on --bg-2 */
+  font-size: 14px;
+  text-align: center;
+}
 
 /* booking / message switch — `display` beats the [hidden] attribute the JS toggles */
 .contact-panels { display: flex; flex-direction: column; gap: 16px; }

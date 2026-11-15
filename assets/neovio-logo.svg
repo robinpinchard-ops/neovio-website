@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1851 498" role="img" aria-label="Neovio">
+  <defs>
+    <linearGradient id="arrow" x1="1150" y1="486" x2="1372" y2="6" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0CD5E5"/>
+      <stop offset="0.35" stop-color="#0EF2FD"/>
+      <stop offset="1" stop-color="#0EF2FD"/>
+    </linearGradient>
+  </defs>
+  <g fill="#0A2F55">
+    <!-- N -->
+    <path d="M8 176H69L233 381V176H297V486H244L72 280V486H8Z"/>
+    <!-- E -->
+    <path d="M371 176H607V230H436V304H587V358H436V432H613V486H371Z"/>
+    <!-- O -->
+    <path fill-rule="evenodd" d="M818.5 171a166.5 160 0 1 0 0 320a166.5 160 0 1 0 0-320ZM818.5 236a101.5 95 0 1 1 0 190a101.5 95 0 1 1 0-190Z"/>
+    <!-- I -->
+    <path d="M1390 176H1454V486H1390Z"/>
+    <!-- O -->
+    <path fill-rule="evenodd" d="M1676.5 171a166.5 160 0 1 0 0 320a166.5 160 0 1 0 0-320ZM1676.5 236a101.5 95 0 1 1 0 190a101.5 95 0 1 1 0-190Z"/>
+  </g>
+  <!-- V: the rising arrow, the brand's only graphic element -->
+  <path fill="url(#arrow)" d="M989 176H1077L1166 389L1281 108L1228 103L1372 6L1413 138L1363 140L1213 486H1125Z"/>
+</svg>

@@ -56,6 +56,7 @@
 (function initForm() {
   const form = document.getElementById('contact-form');
   const success = document.getElementById('form-success');
+  const errorBox = document.getElementById('form-error');
   const submitBtn = form && form.querySelector('button[type=submit]');
   if (!form) return;
 
@@ -72,6 +73,7 @@
     });
     if (!ok) return;
 
+    if (errorBox) errorBox.hidden = true;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours…';
 
@@ -98,7 +100,8 @@
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = SUBMIT_LABEL;
-      alert('Une erreur est survenue. Veuillez réessayer ou nous contacter par email.');
+      // Message lives in the page (role=alert): no blocking dialog.
+      if (errorBox) errorBox.hidden = false;
       console.error('[Neovio] Form error:', err);
     }
   });
